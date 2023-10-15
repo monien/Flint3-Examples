@@ -1,0 +1,72 @@
+name:                Flint2-Examples
+version:             0.1.0.0
+github:              "githubuser/Flint2-Examples"
+license:             BSD3
+author:              "monien"
+maintainer:        "hmonien@uni-bonn.de"
+copyright:          "2023 Hartmut Monien"
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+# Metadata used when publishing your package
+synopsis:  Examples for the Flint2 library
+category:   Math
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:  Please see the README on GitHub at <https://github.com/githubuser/Flint2-Examples#readme>
+
+dependencies:
+  - base >= 4.7 && < 5
+  - mtl
+  - containers
+  - optparse-applicative
+  - Flint2
+
+library:
+  source-dirs: src
+
+executables:
+  arb_plot:
+    source-dirs: app/arb_plot 
+    main: Main.hs
+    dependencies:
+      - JuicyPixels
+      - gloss
+      - gloss-juicy
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  l_values:
+    source-dirs: app/l_values 
+    main: Main.hs
+    dependencies:
+      - timeit
+  l_central:
+    source-dirs: app/l_values 
+    main: Main.hs
+    dependencies:
+      - timeit
+  hilbert_matrix:
+    source-dirs: app/hilbert_matrix
+    main: Main.hs
+  pi_digits:
+    source-dirs: app/pi_digits
+    main: Main.hs
+    dependencies:
+      - timeit
+  fmpq_poly:
+    source-dirs: app/fmpq_poly
+    main: Main.hs
+      
+tests:
+  Flint2-Examples-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - Flint2-Examples
