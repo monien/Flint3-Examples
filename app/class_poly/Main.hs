@@ -31,7 +31,6 @@ run d num_threads = do
       res <- newFmpzPoly
       withFmpzPoly res $ \res -> acb_modular_hilbert_class_poly res d
       when (abs d <= 100) $ print res
-      return ()
     else do
       putStrLn $ "D ( = " ++ show d ++ ") `mod` 4 /= 0, 1."
   else do

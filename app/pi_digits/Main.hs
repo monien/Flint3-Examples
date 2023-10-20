@@ -16,7 +16,7 @@ main = timeItNamed "time" $ run =<< execParser opts where
 
 run (Parameters digits condense) = do
   let prec = floor $ fromIntegral digits * 3.3219280948873623 + 5
-      flag = foldr (\x y -> x+y) (ArbStrOption 0) $
+      flag = foldr (+) (ArbStrOption 0) $
                    replicate condense arb_str_condense
   putStrLn $ "computing pi with a precision of " ++ show prec ++ " bits ..."
   withNewArb $ \x -> do

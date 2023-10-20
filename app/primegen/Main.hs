@@ -17,7 +17,7 @@ run params@(Parameters n count) = do
   prime_iter <- newNPrimes
   if count then do
     (_, (prime_pi, _)) <- runStateT (countPrimes params) (0, prime_iter)
-    putStrLn $ show prime_pi
+    print prime_pi
   else do
     _ <- runStateT (printPrimes params) prime_iter
     return ()

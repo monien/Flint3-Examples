@@ -138,6 +138,21 @@ executable fmpq_poly
     , timeit
   default-language: Haskell2010
 
+executable fmpz_poly_factor_zassenhaus
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/fmpz_poly_factor_zassenhaus
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 executable hilbert_matrix
   main-is: Main.hs
   other-modules:

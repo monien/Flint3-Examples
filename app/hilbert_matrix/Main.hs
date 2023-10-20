@@ -1,9 +1,7 @@
-import Foreign.Ptr (nullPtr)
-import Foreign.C.Types
-
 import Options.Applicative
 import Control.Monad
-import Foreign.Ptr
+import Foreign.Ptr (nullPtr, castPtr)
+import Foreign.C.Types
 import Foreign.Marshal.Array
 
 import Data.Number.Flint
@@ -19,18 +17,18 @@ run p@(Parameters eig n) = do
  hilbertMatrix eig (fromIntegral n) 20
  
 data Parameters = Parameters {
-  eig :: Bool,
-  n :: Int
+    eig :: Bool
+  , n :: Int
 } deriving Show
 
 parameters :: Parser Parameters
 parameters = Parameters
   <$> switch (
-   long "eig" <>
-   help "calculating det as a product of eigenvalues.")
+      long "eig"
+   <> help "calculating det as a product of eigenvalues.")
   <*> argument auto (
-   help "dimension of Hilbert matrix." <>
-   metavar "n")
+      help "dimension of Hilbert matrix."
+   <> metavar "n")
 
 
 hilbertMatrix :: Bool -> CLong -> CLong -> IO ()
