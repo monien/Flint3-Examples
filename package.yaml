@@ -31,18 +31,25 @@ library:
   source-dirs: src
 
 executables:
-  arb_plot:
-    source-dirs: app/arb_plot 
+  bernoulli:
+    source-dirs: app/bernoulli
+    main: Main.hs
+    dependencies: time
+  class_poly:
+    source-dirs: app/class_poly
+    main: Main.hs
+    dependencies: time
+  complex_plot:
+    source-dirs: app/complex_plot 
     main: Main.hs
     dependencies:
       - JuicyPixels
       - gloss
       - gloss-juicy
     ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  bernoulli:
-    source-dirs: app/bernoulli
+  delta_qexp:
+    source-dirs: app/delta_qexp
     main: Main.hs
-    dependencies: time
   l_values:
     source-dirs: app/l_values 
     main: Main.hs
