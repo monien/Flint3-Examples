@@ -47,6 +47,9 @@ executables:
       - gloss
       - gloss-juicy
     ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  crt:
+    source-dirs: app/crt
+    main:  Main.hs
   delta_qexp:
     source-dirs: app/delta_qexp
     main: Main.hs

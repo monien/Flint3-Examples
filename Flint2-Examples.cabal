@@ -93,6 +93,21 @@ executable complex_plot
     , timeit
   default-language: Haskell2010
 
+executable crt
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/crt
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 executable delta_qexp
   main-is: Main.hs
   other-modules:
