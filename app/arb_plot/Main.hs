@@ -20,13 +20,15 @@ main = run =<< execParser opts where
       <> header "test program for arb.")
 
 run :: Parameters -> IO ()
-run (Parameters xa xb ya yb w h colorMode f) = do
+run (Parameters xa xb ya yb w h colorMode f imgFile) = do
   when (colorMode < 0 || colorMode > 6) $ do error "colorMode not available."
   case Map.lookup f functions of 
     Just g -> do let u i j = evalSafe (xa, xb, w) (ya, yb, h) g i (h-j)
                      v i j = rgba colorMode (u i j)
                      img = ImageRGBA8 (generateImage v w h)
-                 savePngImage "arb_plot.png" img
+                 case imgFile of
+                   Just out -> savePngImage out img
+                   _ -> return ()
                  case fromDynamicImage img of
                    Just picture -> display (InWindow "arb plot" (w, h) (0, 0))
                                            white picture
@@ -42,14 +44,15 @@ data Range = Range Double Double Double Double deriving Show
 data Size = Size Int Int deriving Show
 
 data Parameters = Parameters {
-  xa :: Double,
-  xb :: Double,
-  ya :: Double,
-  yb :: Double,
-  with :: Int,
-  height :: Int,
-  colorMode :: Int,
-  fun :: String
+    xa :: Double
+  , xb :: Double
+  , ya :: Double
+  , yb :: Double
+  , with :: Int
+  , height :: Int
+  , colorMode :: Int
+  , fun :: String
+  , imgFile :: Maybe String
   } deriving Show
 
 parameters :: Parser Parameters
@@ -98,5 +101,8 @@ parameters = Parameters
       value "modj" <> 
       help ("possible values: " ++ intercalate ", " (Map.keys functions)) <>
       metavar "FUNCTION")
-
-
+  <*> optional (strOption (
+      long "output" <>
+      short 'o' <>
+      metavar "IMAGE-FILE" <>
+      help "write output to IMAGE-FILE"))
