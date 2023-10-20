@@ -55,6 +55,9 @@ executables:
   pi_digits:
     source-dirs: app/pi_digits
     main: Main.hs
+  primegen:
+    source-dirs: app/primegen
+    main: Main.hs
   fmpq_poly:
     source-dirs: app/fmpq_poly
     main: Main.hs
