@@ -24,6 +24,7 @@ dependencies:
   - mtl
   - containers
   - optparse-applicative
+  - timeit
   - Flint2
 
 library:
@@ -38,24 +39,22 @@ executables:
       - gloss
       - gloss-juicy
     ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  bernoulli:
+    source-dirs: app/bernoulli
+    main: Main.hs
+    dependencies: time
   l_values:
     source-dirs: app/l_values 
     main: Main.hs
-    dependencies:
-      - timeit
   l_central:
     source-dirs: app/l_values 
     main: Main.hs
-    dependencies:
-      - timeit
   hilbert_matrix:
     source-dirs: app/hilbert_matrix
     main: Main.hs
   pi_digits:
     source-dirs: app/pi_digits
     main: Main.hs
-    dependencies:
-      - timeit
   fmpq_poly:
     source-dirs: app/fmpq_poly
     main: Main.hs

@@ -15,7 +15,6 @@ author:         monien
 maintainer:     hmonien@uni-bonn.de
 copyright:      2023 Hartmut Monien
 license:        BSD3
-license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
@@ -38,6 +37,7 @@ library
     , containers
     , mtl
     , optparse-applicative
+    , timeit
   default-language: Haskell2010
 
 executable arb_plot
@@ -58,6 +58,23 @@ executable arb_plot
     , gloss-juicy
     , mtl
     , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
+executable bernoulli
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/bernoulli
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , time
+    , timeit
   default-language: Haskell2010
 
 executable fmpq_poly
@@ -72,6 +89,7 @@ executable fmpq_poly
     , containers
     , mtl
     , optparse-applicative
+    , timeit
   default-language: Haskell2010
 
 executable hilbert_matrix
@@ -86,6 +104,7 @@ executable hilbert_matrix
     , containers
     , mtl
     , optparse-applicative
+    , timeit
   default-language: Haskell2010
 
 executable l_central
@@ -148,4 +167,5 @@ test-suite Flint2-Examples-test
     , containers
     , mtl
     , optparse-applicative
+    , timeit
   default-language: Haskell2010
