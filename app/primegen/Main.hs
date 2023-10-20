@@ -24,14 +24,14 @@ data Parameters = Parameters {
 parameters :: Parser Parameters
 parameters = Parameters
   <$> argument auto (
-    help "n" <>
-    metavar "n")
+      help "n"
+   <> metavar "n")
   <*> option auto (
-    help "count primes." <>
-    short 'c' <>
-    long "count" <>
-    value False <>
-    metavar "count")
+      help "count primes."
+   <> short 'c'
+   <> long "count"
+   <> value False
+   <> metavar "count")
 
 
   
