@@ -50,6 +50,6 @@ parameters = Parameters
       help "n"
    <> metavar "n")
   <*> switch (
-      help "count primes."
+      help "count primes"
    <> short 'c'
    <> long "count")

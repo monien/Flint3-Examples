@@ -53,6 +53,13 @@ executables:
   delta_qexp:
     source-dirs: app/delta_qexp
     main: Main.hs
+  fmpq_poly:
+    source-dirs: app/fmpq_poly
+    main: Main.hs
+  fmpz_mpoly_factor:
+    source-dirs: app/fmpz_mpoly_factor
+    main: Main.hs
+    dependencies: time
   fmpz_poly_factor_zassenhaus:
     source-dirs: app/fmpz_poly_factor_zassenhaus
     main: Main.hs
@@ -70,9 +77,6 @@ executables:
     main: Main.hs
   primegen:
     source-dirs: app/primegen
-    main: Main.hs
-  fmpq_poly:
-    source-dirs: app/fmpq_poly
     main: Main.hs
       
 tests:
