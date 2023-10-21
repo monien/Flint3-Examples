@@ -53,6 +53,9 @@ executables:
   delta_qexp:
     source-dirs: app/delta_qexp
     main: Main.hs
+  factor_integer:
+    source-dirs: app/factor_integer
+    main: Main.hs
   fmpq_poly:
     source-dirs: app/fmpq_poly
     main: Main.hs
@@ -62,6 +65,12 @@ executables:
     dependencies: time
   fmpz_poly_factor_zassenhaus:
     source-dirs: app/fmpz_poly_factor_zassenhaus
+    main: Main.hs
+  fpwrap:
+    source-dirs: app/fpwrap
+    main: Main.hs
+  integrals:
+    source-dirs: app/integrals
     main: Main.hs
   l_values:
     source-dirs: app/l_values 

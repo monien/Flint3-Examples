@@ -123,6 +123,21 @@ executable delta_qexp
     , timeit
   default-language: Haskell2010
 
+executable factor_integer
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/factor_integer
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 executable fmpq_poly
   main-is: Main.hs
   other-modules:
@@ -169,12 +184,42 @@ executable fmpz_poly_factor_zassenhaus
     , timeit
   default-language: Haskell2010
 
+executable fpwrap
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/fpwrap
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 executable hilbert_matrix
   main-is: Main.hs
   other-modules:
       Paths_Flint2_Examples
   hs-source-dirs:
       app/hilbert_matrix
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
+executable integrals
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/integrals
   build-depends:
       Flint2
     , base >=4.7 && <5
