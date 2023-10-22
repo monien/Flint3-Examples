@@ -33,6 +33,7 @@ run params@(Parameters range prec g tol twice
       Range (start, end) = range
       goal = if g == 0 then prec else g
   opts <- newAcbCalcIntegrateOpt_ deg eval depth use_heap verbose
+  print opts
   withAcbCalcIntegrateOpt opts $ \opts -> do
     withMag tol $ \tol -> do
       flag <- mag_is_zero tol
@@ -40,6 +41,15 @@ run params@(Parameters range prec g tol twice
       withNewAcb $ \a -> do
         withNewAcb $ \b -> do
           withNewAcb $ \s -> do
+            putStrLn $ "prec: " ++ show prec
+            putStrLn $ "goal: " ++ show goal
+            putStr "tol: "; mag_print tol; putStr "\n"
+            putStrLn $ "deg: " ++ show deg
+            putStrLn $ "depth: " ++ show depth
+            putStrLn $ "eval: " ++ show eval
+            putStrLn $ "verbose: " ++ show verbose
+            putStr "\n"
+            putStr "s: "; acb_printn s 16 arb_str_no_radius; putStr "\n\n"
             forM_ [start .. end] $ \j -> do
               let (desc, h) = integrands !! j
               f <- makeFunPtr h
@@ -64,7 +74,7 @@ run params@(Parameters range prec g tol twice
                   return flag
                 3 -> do
                   acb_set_d a 0
-                  acb_one b
+                  acb_set_d b 1
                   flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
                   acb_mul_2exp_si s s 2
                   return flag
@@ -73,8 +83,8 @@ run params@(Parameters range prec g tol twice
                   acb_set_d b 8
                   acb_calc_integrate s f nullPtr a b goal tol opts prec
                 5 -> do
-                  acb_set_d a 1
-                  acb_set_d b 101
+                  acb_set_d a 1.01
+                  acb_set_d b 1.99
                   acb_calc_integrate s f nullPtr a b goal tol opts prec
                 _ -> do
                   putStrLn "everything else"
@@ -83,6 +93,10 @@ run params@(Parameters range prec g tol twice
               putStrLn $ "I" ++ show j ++ " = " ++ desc
               acb_printn s digits arb_str_none
               putStr "\n\n"
+              acb_printn a digits arb_str_none
+              putStr "\n"
+              acb_printn b digits arb_str_none
+              putStr "\n"
               
   
 data Parameters = Parameters {
