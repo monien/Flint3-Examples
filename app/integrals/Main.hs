@@ -56,7 +56,7 @@ run params@(Parameters range prec g tol twice
                   return flag
                 2 -> do
                   acb_set_d a 0
-                  acb_one b
+                  acb_set_d b 1
                   acb_mul_2exp_si b b goal
                   flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
                   arb_add_error_2exp_si (acb_realref s) (-goal)
@@ -81,7 +81,7 @@ run params@(Parameters range prec g tol twice
                   return 1
               let digits = round (0.333 * fromIntegral prec) :: CLong
               putStrLn $ "I" ++ show j ++ " = " ++ desc
-              acb_printn s digits arb_str_no_radius
+              acb_printn s digits arb_str_none
               putStr "\n\n"
               
   

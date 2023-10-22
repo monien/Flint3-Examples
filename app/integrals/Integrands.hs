@@ -2,12 +2,26 @@ module Integrands (
   integrands
 ) where
 
+import Foreign.Ptr (nullPtr)
 import Control.Monad
 import Data.Number.Flint
 
 integrands = zip description hFunctions
- 
-f_sin z res param order prec = do
+
+testFunction f x = do
+  withNewAcb $ \res -> do
+    withNewAcb $ \t -> do
+      acb_set_d t x
+      putStr"testFunction: arg = "
+      acb_printn t 16 arb_str_no_radius
+      putStr "\n"
+      flag <- f res t nullPtr 0 1024
+      putStr "testFunction: res = "
+      acb_printn res 16 arb_str_no_radius
+      putStr "\n"
+  return ()
+  
+f_sin res z param order prec = do
   when (order > 1) $ error "f_sin: Would be needed for Taylor method."
   acb_sin res z prec
   return 0
@@ -22,6 +36,10 @@ f_circle res z param order prec = do
   acb_one res 
   acb_submul res z z prec 
   acb_real_sqrtpos res res 1 prec
+  acb_printn z 16 arb_str_no_radius
+  putStr " "
+  acb_printn res 16 arb_str_no_radius
+  putStr "\n"
   return 0
 
 f_atanderiv res z param order prec = do
@@ -65,10 +83,11 @@ hFunctions :: [CAcbCalcFunc]
 hFunctions =
   [
     f_sin
-  , f_floor
-  , f_circle
   , f_atanderiv
+  , f_atanderiv
+  , f_circle
   , f_rump
+  , f_floor
   , f_helfgott
   , f_zeta
   -- , f_essing2
