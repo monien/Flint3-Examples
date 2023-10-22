@@ -1,9 +1,22 @@
 import System.IO.Unsafe
+
 import Options.Applicative
 import Control.Monad
-import Foreign.C.Types
+import Control.Applicative ((<|>))
 
+import Foreign.C.Types
+import Foreign.C.String
+import Foreign.Ptr
+import Foreign.Marshal.Alloc (free)
+import Foreign.Storable
+
+import Text.ParserCombinators.ReadP hiding (option)
+import Text.Read (readMaybe)
+
+import Data.Char
 import Data.Number.Flint
+
+import Integrands
 
 main = run =<< execParser opts where
   desc = "Calculate integrals using acb_calculate."
@@ -12,57 +25,102 @@ main = run =<< execParser opts where
       <> progDesc desc
       <> header desc)
 
--- run params@(Parameters from to prec reltol abstol
---                        twice heap verbosity
---                        deg eval depth num_threads) = do
-  -- when (to > length integrands) $ error "index to large."
-
-run params = do
-  print params
-  flint_set_num_threads $ num_threads params
+run params@(Parameters range prec g tol twice
+                       heap verbose deg eval depth num_threads) = do
+  when (verbose > 0) $ print params
+  flint_set_num_threads num_threads
+  let use_heap = if heap then 1 else 0
+      Range (start, end) = range
+      goal = if g == 0 then prec else g
+  opts <- newAcbCalcIntegrateOpt_ deg eval depth use_heap verbose
+  withAcbCalcIntegrateOpt opts $ \opts -> do
+    withMag tol $ \tol -> do
+      flag <- mag_is_zero tol
+      when (flag == 1) $ do mag_set_ui_2exp_si tol 1 (-prec)
+      withNewAcb $ \a -> do
+        withNewAcb $ \b -> do
+          withNewAcb $ \s -> do
+            forM_ [start .. end] $ \j -> do
+              let (desc, h) = integrands !! j
+              f <- makeFunPtr h
+              flag <- case j of
+                0 -> do
+                  acb_set_d a 0
+                  acb_set_d b 100
+                  acb_calc_integrate s f nullPtr a b goal tol opts prec
+                1 -> do
+                  acb_set_d a 0
+                  acb_set_d b 1
+                  flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
+                  acb_mul_2exp_si s s 2
+                  return flag
+                2 -> do
+                  acb_set_d a 0
+                  acb_one b
+                  acb_mul_2exp_si b b goal
+                  flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
+                  arb_add_error_2exp_si (acb_realref s) (-goal)
+                  acb_mul_2exp_si s s 1
+                  return flag
+                3 -> do
+                  acb_set_d a 0
+                  acb_one b
+                  flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
+                  acb_mul_2exp_si s s 2
+                  return flag
+                4 -> do
+                  acb_set_d a 0
+                  acb_set_d b 8
+                  acb_calc_integrate s f nullPtr a b goal tol opts prec
+                5 -> do
+                  acb_set_d a 1
+                  acb_set_d b 101
+                  acb_calc_integrate s f nullPtr a b goal tol opts prec
+                _ -> do
+                  putStrLn "everything else"
+                  return 1
+              let digits = round (0.333 * fromIntegral prec) :: CLong
+              putStrLn $ "I" ++ show j ++ " = " ++ desc
+              acb_printn s digits arb_str_no_radius
+              putStr "\n\n"
+              
   
 data Parameters = Parameters {
-    from        :: Int 
-  , to          :: Int
-  , prec        :: CULong
-  , reltol      :: String
-  , abstol      :: String
+    range       :: Range
+  , prec        :: CLong
+  , goal        :: CLong
+  , tol         :: Mag
   , twice       :: Bool
   , heap        :: Bool
-  , verbosity   :: Int
+  , verbosity   :: CInt
   , deg         :: CLong
   , eval        :: CLong
   , depth       :: CLong
   , num_threads :: CInt
 } deriving Show
-
+    
 parameters :: Parser Parameters
 parameters = Parameters
-  <$> option auto (
-      help "calculate integrals from list from index."
-   <> long "from"
-   <> value 0
-   <> metavar "start")
-  <*> option auto (
-      help "calculate integrals from list to index."
-   <> long "end"
-   <> value (length integrands)
-   <> metavar "to")
-  <*> option auto (
+  <$> option rng (
+      help "calculate integrals from list in range for example --range 2:6."
+   <> long "range"
+   <> value (Range (0, length integrands-1))
+   <> metavar "range")
+  <*> option pos (
       help "precision in bits (default p = 64)."
    <> long "prec"
    <> short 'p'
    <> value 64
    <> metavar "p")
-  <*> option str (
+  <*> option pos (
       help "approximate relative accuracy goal (p)."
-   <> long "realtol"
-   <> value "64"
-   <> metavar "reltol")
-  <*> option str (
+   <> long "goal"
+   <> value 0
+   <> metavar "goal")
+  <*> option mag (
       help "approximate absolute accuracy goal (default 2^-p)."
-   <> long "abstol"
-   <> value "2^-64"
+   <> long "tol"
+   <> value (read "0")
    <> metavar "abstol")
   <*> switch (
       help "run twice (to see overhead of computing nodes)."
@@ -70,180 +128,131 @@ parameters = Parameters
   <*> switch (
       help "use heap for subinterval queue."
    <> long "heap")
-  <*> option auto (
+  <*> option pos (
       help "verbosity level."
    <> short 'v'
    <> long "verbosity"
    <> value 0
    <> metavar "verbosity")
-  <*> option auto (
+  <*> option pos (
       help "use quadrature degree up to n"
    <> long "deg"
-   <> value 4
+   <> value 0
    <> metavar "degree")
-  <*> option auto (
+  <*> option pos (
       help "limit number of function evaluations to n."
    <> long "eval"
+   <> value 0
    <> metavar "eval")
-  <*> option auto (
+  <*> option pos (
       help "limit subinterval queue size to n"
    <> long "depth"
+   <> value 0
    <> metavar "depth")
   <*> option auto (
       help "number of threads"
    <> long "threads"
    <> value 1 
-   <> metavar "THREADS")
+   <> metavar "threads")
 
--- parseArbMag = eitherReader $ \s -> do
+-- ReadM parsers ---------------------------------------------------------------
+
+rng :: ReadM Range
+rng = eitherReader $ \s -> do
+  let result@(Range (a, b)) = read s :: Range
+  if 0 <= a && a <= b && b < length integrands - 1 then
+    Right result
+  else
+    Left $ "could not parse range"
   
--- data FluxCapacitor = ...
+pos :: (Read a, Integral a) => ReadM a
+pos = eitherReader $ \s -> do
+  let result = read s
+  if result >= 0 then 
+    Right result
+  else
+    Left $ "expected positive number"
 
--- parseFluxCapacitor :: ReadM FluxCapacitor
--- parseFluxCapacitor = eitherReader $ \s -> ...
+mag = eitherReader $ \s -> do
+  case readMaybe s of
+    Just result -> Right result
+    _           -> Left $ "parsing " ++ show s ++ " failed."
 
--- option parseFluxCapacitor ( long "flux-capacitor" )
+-- instances Mag ---------------------------------------------------------------
 
--- parseTile :: Parser Tile
--- parseTile = do
---   x <- decimal
---   char ','
---   y <- decimal
---   char ':'
---   t <- decimal `sepBy` (char ',')
---   char ';'
---   return $ Tile x y t
+instance Read Mag where
+  readsPrec _ = readP_to_S (mkMag 10 <$> parseArb)
+
+-- instances Range -------------------------------------------------------------
+
+newtype Range = Range (Int, Int)
+
+instance Read Range where
+  readsPrec _ = readP_to_S (parseRange <|> parseIndex)
+
+instance Show Range where
+  show (Range (a, b)) = "[" ++ show a ++ ":" ++ show b ++ "]"
   
--- integrands ------------------------------------------------------------------
+-- parsers  --------------------------------------------------------------------
 
-f_sin z res param order prec = do
-  when (order > 1) $ error "f_sin: Would be needed for Taylor method."
-  acb_sin res z prec
-  return 0
+parseArb = do
+  (res, _) <- gather $ choice
+    [  char '[' *> parseFloat *> pm *> parseFloat <* char ']'
+    ,  char '[' *> pm *> parseFloat <* char ']'
+    ,  char '[' *> parseFloat <* char ']'
+    , parseFloat
+    ]
+  return res
+  where pm = skipSpaces *> string "+/-" <* many1 (char ' ')
 
-f_floor res z param order prec = do
-  when (order > 1) $ error "f_floor: Would be needed for Taylor method."
-  acb_real_floor res z 1 prec
-  return 0
+mkMag prec s = unsafePerformIO $ do
+  (result, flag) <- withNewMag $ \m -> do
+    withNewArb $ \x -> do
+      withCString s $ \s -> do
+        arb_set_str x s prec
+        arb_get_mag m x
+  return $ result
+     
+parseFloat = do
+  munch (\x -> x == '+' || x == '-')
+  choice [nan, inf, num *> e, num]
+  where
+    nan = string "nan"
+    inf = string "inf"
+    num = munch1 isNumber *> munch (== '.') *> munch isNumber
+    e = do
+      char 'e'
+      munch (\x -> x == '+' || x == '-')
+      munch1 isNumber
 
-f_circle res z param order prec = do
-  when (order > 1) $ error "f_circle: Would be needed for Taylor method."
-  acb_one res 
-  acb_submul res z z prec 
-  acb_real_sqrtpos res res 1 prec
-  return 0
+parseRange :: ReadP Range 
+parseRange = do
+  a <- read <$> munch1 isNumber
+  char ':'
+  b <- read <$> munch1 isNumber
+  return $ Range (a, b)
 
-f_atanderiv res z param order prec = do
-  when (order > 1) $ error "f_circle: Would be needed for Taylor method."
-  acb_mul res z z prec
-  acb_add_ui res res 1 prec
-  acb_inv res res prec
-  return 0
+parseIndex :: ReadP Range
+parseIndex = do
+  a <- read <$> munch1 isNumber
+  return $ Range (a, a)
+  
+--------------------------------------------------------------------------------
 
-f_rump res z param order prec = do
-  when (order > 1) $ error "f_rump: Would be needed for Taylor method."
-  acb_exp res z prec
-  acb_add res res z prec
-  acb_sin res res prec
-  return 0
+instance Show AcbCalcIntegrateOpt where
+  show x = unsafePerformIO $ do
+    (_, result) <- withAcbCalcIntegrateOpt x $ \x -> do
+      CAcbCalcIntegrateOpt deg eval depth use_heap verbosity <- peek x
+      return $ "options:"
+             ++ " deg=" ++ show deg
+             ++ " eval=" ++ show eval
+             ++ " depth=" ++ show depth
+             ++ " heap=" ++ show use_heap
+             ++ " verbosity=" ++ show verbosity
+    return result
 
-f_helfgott res z param order prec = do
-  when (order > 1) $ error "f_helfgott: Would be needed for Taylor method."
-  acb_add_si res z 10 prec
-  acb_mul res res z prec
-  acb_add_si res res 19 prec
-  acb_mul res res z prec
-  acb_add_si res res (-6) prec
-  acb_mul res res z prec
-  acb_add_si res res (-6) prec
-  acb_real_abs res res 1 prec
-  flag <- acb_is_finite res
-  when (flag == 1) $ do
-    withNewAcb $ \t -> do
-      acb_exp t z prec
-      acb_mul res res t prec
-    return ()
-  return 0
+--------------------------------------------------------------------------------
 
-f_zeta res z param order prec = do
-  when (order > 1) $ error "f_zeta: Would be needed for Taylor method."
-  acb_zeta res z prec
-  return 0
-
-integrands =
-  [
-    f_sin
-  , f_floor
-  , f_circle
-  , f_atanderiv
-  , f_rump
-  , f_helfgott
-  , f_zeta
-  -- , f_essing2
-  -- , f_essing
-  -- , f_factorial1000
-  -- , f_gamma
-  -- , f_sin_plus_small
-  -- , f_exp
-  -- , f_gaussian
-  -- , f_monster
-  -- , f_spike
-  -- , f_sech
-  -- , f_sech3
-  -- , f_log_div1p
-  -- , f_log_div1p_transformed
-  -- , f_elliptic_p_laurent_n
-  -- , f_zeta_frac
-  -- , f_lambertw
-  -- , f_max_sin_cos
-  -- , f_er, f_bent
-  -- , f_airy_ai
-  -- , f_horror
-  -- , f_sqrt
-  -- , f_rsqrt
-  -- , f_rgamma
-  -- , f_gaussian_twist
-  -- , f_exp_airy
-  -- , f_sin_cos_frac
-  -- , f_sin_near_essing
-  -- , f_scaled_bessel
-  ]
-
-description = [
-    "int_0^100 sin(x) dx"
-  , "4 int_0^1 1/(1+x^2) dx"
-  , "2 int_0^{inf} 1/(1+x^2) dx   (using domain truncation)"
-  , "4 int_0^1 sqrt(1-x^2) dx"
-  , "int_0^8 sin(x+exp(x)) dx"
-  , "int_1^101 floor(x) dx"
-  , "int_0^1 |x^4+10x^3+19x^2-6x-6| exp(x) dx"
-  , "1/(2 pi i) int zeta(s) ds  (closed path around s = 1)"
-  , "int_0^1 sin(1/x) dx  (slow convergence, use -heap and/or -tol)"
-  , "int_0^1 x sin(1/x) dx  (slow convergence, use -heap and/or -tol)"
-  , "int_0^10000 x^1000 exp(-x) dx"
-  , "int_1^{1+1000i} gamma(x) dx"
-  , "int_{-10}^{10} sin(x) + exp(-200-x^2) dx"
-  , "int_{-1020}^{-1010} exp(x) dx  (use -tol 0 for relative error)"
-  , "int_0^{inf} exp(-x^2) dx   (using domain truncation)"
-  , "int_0^1 sech(10(x-0.2))^2 + sech(100(x-0.4))^4 + sech(1000(x-0.6))^6 dx"
-  , "int_0^8 (exp(x)-floor(exp(x))) sin(x+exp(x)) dx  (use higher -eval)"
-  , "int_0^{inf} sech(x) dx   (using domain truncation)"
-  , "int_0^{inf} sech^3(x) dx   (using domain truncation)"
-  , "int_0^1 -log(x)/(1+x) dx   (using domain truncation)"
-  , "int_0^{inf} x exp(-x)/(1+exp(-x)) dx   (using domain truncation)"
-  , "int_C wp(x)/x^(11) dx   (contour for 10th Laurent coefficient of Weierstrass p-function)"
-  , "N(1000) = count zeros with 0 < t <= 1000 of zeta(s) using argument principle"
-  , "int_0^{1000} W_0(x) dx"
-  , "int_0^pi max(sin(x), cos(x)) dx"
-  , "int_{-1}^1 erf(x/sqrt(0.0002)*0.5+1.5)*exp(-x) dx"
-  , "int_{-10}^10 Ai(x) dx"
-  , "int_0^10 (x-floor(x)-1/2) max(sin(x),cos(x)) dx"
-  , "int_{-1-i}^{-1+i} sqrt(x) dx"
-  , "int_0^{inf} exp(-x^2+ix) dx   (using domain truncation)"
-  , "int_0^{inf} exp(-x) Ai(-x) dx   (using domain truncation)"
-  , "int_0^pi x sin(x) / (1 + cos(x)^2) dx"
-  , "int_0^3 sin(0.001 + (1-x)^2)^(-3/2)) dx  (slow convergence, use higher -eval)"
-  , "int_0^{inf} exp(-x) I_0(x/3)^3 dx   (using domain truncation)"
-  , "int_0^{inf} exp(-x) I_0(x/15)^{15} dx   (using domain truncation)"
-  , "int_{-1-i}^{-1+i} 1/sqrt(x) dx"
-  , "int_0^{inf} 1/gamma(x) dx   (using domain truncation)"]
+foreign import ccall "wrapper"
+  makeFunPtr :: CAcbCalcFunc -> IO (FunPtr CAcbCalcFunc)
+ 

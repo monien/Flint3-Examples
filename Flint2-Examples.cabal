@@ -217,6 +217,7 @@ executable hilbert_matrix
 executable integrals
   main-is: Main.hs
   other-modules:
+      Integrands
       Paths_Flint2_Examples
   hs-source-dirs:
       app/integrals
