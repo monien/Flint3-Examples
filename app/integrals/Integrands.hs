@@ -1,5 +1,6 @@
 module Integrands (
   integrands
+, f_sin
 ) where
 
 import Foreign.Ptr (nullPtr)
@@ -28,14 +29,14 @@ f_sin res z param order prec = do
 
 f_floor res z param order prec = do
   when (order > 1) $ error "f_floor: Would be needed for Taylor method."
-  acb_real_floor res z 1 prec
+  acb_real_floor res z (if order /= 0 then 1 else 0) prec
   return 0
 
 f_circle res z param order prec = do
   when (order > 1) $ error "f_circle: Would be needed for Taylor method."
   acb_one res 
   acb_submul res z z prec 
-  acb_real_sqrtpos res res 1 prec
+  acb_real_sqrtpos res res (if order /= 0 then 1 else 0) prec
   return 0
 
 f_atanderiv res z param order prec = do
@@ -85,6 +86,7 @@ hFunctions =
   , f_rump
   , f_floor
   , f_helfgott
+  , f_zeta
   , f_zeta
   -- , f_essing2
   -- , f_essing

@@ -12,26 +12,39 @@ import Foreign.Storable
 
 import Text.ParserCombinators.ReadP hiding (option)
 import Text.Read (readMaybe)
+import Text.Printf
 
 import Data.Char
+import Data.List (intercalate)
 import Data.Number.Flint
 
 import Integrands
 
 main = run =<< execParser opts where
-  desc = "Calculate integrals using acb_calculate."
+  hDesc = "Calculate integrals using acb_calculate."
+  desc = "Calculate integrals from list in range 0:"
+       ++ show (length integrands) ++ ". "
+       ++ "For a list of implemented integrals use --list."
   opts = info (parameters <**> helper) (
          fullDesc
       <> progDesc desc
-      <> header desc)
+      <> header hDesc)
 
-run params@(Parameters range prec g tol twice
-                       heap verbose deg eval depth num_threads) = do
+run params = do
+  if list params then do
+    let desc = fst $ unzip integrands
+    putStrLn "List of implemented integrals:\n"
+    mapM_ (\(x, y) -> printf "  %2d  %s\n" x y) $ zip [0 :: Int ..] desc
+  else do
+    calc params
+    
+calc params@(Parameters list range prec goal' tol twice
+                        heap verbose deg eval depth num_threads) = do
   when (verbose > 0) $ print params
   flint_set_num_threads num_threads
   let use_heap = if heap then 1 else 0
       Range (start, end) = range
-      goal = if g == 0 then prec else g
+      goal = if goal' == 0 then prec else goal'
   opts <- newAcbCalcIntegrateOpt_ deg eval depth use_heap verbose
   print opts
   withAcbCalcIntegrateOpt opts $ \opts -> do
@@ -41,15 +54,6 @@ run params@(Parameters range prec g tol twice
       withNewAcb $ \a -> do
         withNewAcb $ \b -> do
           withNewAcb $ \s -> do
-            putStrLn $ "prec: " ++ show prec
-            putStrLn $ "goal: " ++ show goal
-            putStr "tol: "; mag_print tol; putStr "\n"
-            putStrLn $ "deg: " ++ show deg
-            putStrLn $ "depth: " ++ show depth
-            putStrLn $ "eval: " ++ show eval
-            putStrLn $ "verbose: " ++ show verbose
-            putStr "\n"
-            putStr "s: "; acb_printn s 16 arb_str_no_radius; putStr "\n\n"
             forM_ [start .. end] $ \j -> do
               let (desc, h) = integrands !! j
               f <- makeFunPtr h
@@ -57,6 +61,7 @@ run params@(Parameters range prec g tol twice
                 0 -> do
                   acb_set_d a 0
                   acb_set_d b 100
+                  makeFunPtr f_sin
                   acb_calc_integrate s f nullPtr a b goal tol opts prec
                 1 -> do
                   acb_set_d a 0
@@ -83,8 +88,8 @@ run params@(Parameters range prec g tol twice
                   acb_set_d b 8
                   acb_calc_integrate s f nullPtr a b goal tol opts prec
                 5 -> do
-                  acb_set_d a 1.01
-                  acb_set_d b 1.99
+                  acb_set_d a 1
+                  acb_set_d b 101
                   acb_calc_integrate s f nullPtr a b goal tol opts prec
                 _ -> do
                   putStrLn "everything else"
@@ -93,14 +98,11 @@ run params@(Parameters range prec g tol twice
               putStrLn $ "I" ++ show j ++ " = " ++ desc
               acb_printn s digits arb_str_none
               putStr "\n\n"
-              acb_printn a digits arb_str_none
-              putStr "\n"
-              acb_printn b digits arb_str_none
-              putStr "\n"
-              
+  return ()
   
 data Parameters = Parameters {
-    range       :: Range
+    list        :: Bool
+  , range       :: Range
   , prec        :: CLong
   , goal        :: CLong
   , tol         :: Mag
@@ -115,35 +117,39 @@ data Parameters = Parameters {
     
 parameters :: Parser Parameters
 parameters = Parameters
-  <$> option rng (
-      help "calculate integrals from list in range for example --range 2:6."
+  <$> switch (
+      help "show list of implemented integrals."
+   <> long "list"
+   <> short 'l')
+  <*> option rng (
+      help "range (for example --range 2:6 or --range 7)"  
    <> long "range"
    <> value (Range (0, length integrands-1))
    <> metavar "range")
   <*> option pos (
-      help "precision in bits (default p = 64)."
+      help "precision in bits (default p = 64)"
    <> long "prec"
    <> short 'p'
    <> value 64
    <> metavar "p")
   <*> option pos (
-      help "approximate relative accuracy goal (p)."
+      help "approximate relative accuracy goal (p)"
    <> long "goal"
    <> value 0
    <> metavar "goal")
   <*> option mag (
-      help "approximate absolute accuracy goal (default 2^-p)."
+      help "approximate absolute accuracy goal (default 2^-p)"
    <> long "tol"
    <> value (read "0")
    <> metavar "abstol")
   <*> switch (
-      help "run twice (to see overhead of computing nodes)."
+      help "run twice (to see overhead of computing nodes)"
    <> long "twice")
   <*> switch (
-      help "use heap for subinterval queue."
+      help "use heap for subinterval queue"
    <> long "heap")
   <*> option pos (
-      help "verbosity level."
+      help "verbosity level"
    <> short 'v'
    <> long "verbosity"
    <> value 0
@@ -154,7 +160,7 @@ parameters = Parameters
    <> value 0
    <> metavar "degree")
   <*> option pos (
-      help "limit number of function evaluations to n."
+      help "limit number of function evaluations to n"
    <> long "eval"
    <> value 0
    <> metavar "eval")
