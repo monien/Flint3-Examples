@@ -59,37 +59,47 @@ calc params@(Parameters list range prec goal' tol twice
               f <- makeFunPtr h
               flag <- case j of
                 0 -> do
-                  acb_set_d a 0
-                  acb_set_d b 100
-                  makeFunPtr f_sin
+                  acb_set_si a 0
+                  acb_set_si b 100
+                  f <- makeFunPtr f_sin
                   acb_calc_integrate s f nullPtr a b goal tol opts prec
                 1 -> do
-                  acb_set_d a 0
-                  acb_set_d b 1
+                  acb_set_si a 0
+                  acb_set_si b 1
+                  f <- makeFunPtr f_atanderiv
                   flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
                   acb_mul_2exp_si s s 2
                   return flag
                 2 -> do
-                  acb_set_d a 0
-                  acb_set_d b 1
+                  acb_set_si a 0
+                  acb_set_si b 1
                   acb_mul_2exp_si b b goal
+                  f <- makeFunPtr f_atanderiv
                   flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
                   arb_add_error_2exp_si (acb_realref s) (-goal)
                   acb_mul_2exp_si s s 1
                   return flag
                 3 -> do
-                  acb_set_d a 0
-                  acb_set_d b 1
+                  acb_set_si a 0
+                  acb_set_si b 1
+                  f <- makeFunPtr f_circle
                   flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
                   acb_mul_2exp_si s s 2
                   return flag
                 4 -> do
-                  acb_set_d a 0
-                  acb_set_d b 8
+                  acb_set_si a 0
+                  acb_set_si b 8
+                  f <- makeFunPtr f_rump
                   acb_calc_integrate s f nullPtr a b goal tol opts prec
                 5 -> do
-                  acb_set_d a 1
-                  acb_set_d b 101
+                  acb_set_si a 1
+                  acb_set_si b 101
+                  f <- makeFunPtr f_floor
+                  acb_calc_integrate s f nullPtr a b goal tol opts prec
+                6 -> do
+                  acb_set_si a 0
+                  acb_set_si b 1
+                  f <- makeFunPtr f_helfgott
                   acb_calc_integrate s f nullPtr a b goal tol opts prec
                 _ -> do
                   putStrLn "everything else"
@@ -272,8 +282,3 @@ instance Show AcbCalcIntegrateOpt where
              ++ " verbosity=" ++ show verbosity
     return result
 
---------------------------------------------------------------------------------
-
-foreign import ccall "wrapper"
-  makeFunPtr :: CAcbCalcFunc -> IO (FunPtr CAcbCalcFunc)
- 

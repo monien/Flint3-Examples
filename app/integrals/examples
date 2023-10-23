@@ -1,0 +1,44 @@
+f_sin
+f_atanderiv
+f_atanderiv
+f_circle
+f_rump
+f_floor
+f_helfgott
+t, f_zeta
+t, f_zeta
+t, f_zeta
+t, f_zeta
+f_essing
+f_essing2
+f_factorial1000
+f_gamma
+f_sin_plus_small
+f_exp
+f_gaussian
+f_spike
+f_monster
+f_sech
+f_sech3
+f_log_div1p
+f_log_div1p_transformed
+f_elliptic_p_laurent_n
+f_elliptic_p_laurent_n
+f_elliptic_p_laurent_n
+f_elliptic_p_laurent_n
+f_zeta_frac
+f_zeta_frac
+f_lambertw
+f_max_sin_coNULL, a, b, goal, tol, optionprec);
+f_erf_bent
+f_airy_ai
+f_horror
+f_sqrt
+f_gaussian_twist
+f_exp_airy
+f_sin_cos_frac
+f_sin_near_essing
+f_scaled_bessel
+f_scaled_bessel
+f_rsqrt
+f_rgamma

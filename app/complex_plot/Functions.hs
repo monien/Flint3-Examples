@@ -174,8 +174,7 @@ evalSafe (xa, xb, xnum) (ya, yb, ynum) f i j = unsafePerformIO $ do
           return value
         return result
       arb_get_d x = do
-        m <- arb_midref x
-        d <- arf_get_d m arf_rnd_near
+        d <- arf_get_d (arb_midref x) arf_rnd_near
         return d
   result <- iter 30
   (_, (_, (_, functionValue)))
