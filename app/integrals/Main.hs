@@ -14,6 +14,7 @@ import Text.ParserCombinators.ReadP hiding (option)
 import Text.Read (readMaybe)
 import Text.Printf
 
+import Data.Bits
 import Data.Char
 import Data.List (intercalate)
 import Data.Number.Flint
@@ -54,60 +55,190 @@ calc params@(Parameters list range prec goal' tol twice
       withNewAcb $ \a -> do
         withNewAcb $ \b -> do
           withNewAcb $ \s -> do
-            forM_ [start .. end] $ \j -> do
-              let (desc, h) = integrands !! j
-              f <- makeFunPtr h
-              flag <- case j of
-                0 -> do
-                  acb_set_si a 0
-                  acb_set_si b 100
-                  f <- makeFunPtr f_sin
-                  acb_calc_integrate s f nullPtr a b goal tol opts prec
-                1 -> do
-                  acb_set_si a 0
-                  acb_set_si b 1
-                  f <- makeFunPtr f_atanderiv
-                  flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
-                  acb_mul_2exp_si s s 2
-                  return flag
-                2 -> do
-                  acb_set_si a 0
-                  acb_set_si b 1
-                  acb_mul_2exp_si b b goal
-                  f <- makeFunPtr f_atanderiv
-                  flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
-                  arb_add_error_2exp_si (acb_realref s) (-goal)
-                  acb_mul_2exp_si s s 1
-                  return flag
-                3 -> do
-                  acb_set_si a 0
-                  acb_set_si b 1
-                  f <- makeFunPtr f_circle
-                  flag <- acb_calc_integrate s f nullPtr a b goal tol opts prec
-                  acb_mul_2exp_si s s 2
-                  return flag
-                4 -> do
-                  acb_set_si a 0
-                  acb_set_si b 8
-                  f <- makeFunPtr f_rump
-                  acb_calc_integrate s f nullPtr a b goal tol opts prec
-                5 -> do
-                  acb_set_si a 1
-                  acb_set_si b 101
-                  f <- makeFunPtr f_floor
-                  acb_calc_integrate s f nullPtr a b goal tol opts prec
-                6 -> do
-                  acb_set_si a 0
-                  acb_set_si b 1
-                  f <- makeFunPtr f_helfgott
-                  acb_calc_integrate s f nullPtr a b goal tol opts prec
-                _ -> do
-                  putStrLn "everything else"
-                  return 1
-              let digits = round (0.333 * fromIntegral prec) :: CLong
-              putStrLn $ "I" ++ show j ++ " = " ++ desc
-              acb_printn s digits arb_str_none
-              putStr "\n\n"
+            withNewAcb $ \t -> do
+              forM_ [start .. end] $ \j -> do
+                let (desc, h) = integrands !! j
+                case j of
+                  0 -> do
+                    acb_set_si a 0
+                    acb_set_si b 100
+                    f <- makeFunPtr f_sin
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  1 -> do
+                    acb_set_si a 0
+                    acb_set_si b 1
+                    f <- makeFunPtr f_atanderiv
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    acb_mul_2exp_si s s 2
+                    return ()
+                  2 -> do
+                    acb_set_si a 0
+                    acb_set_si b 1
+                    acb_mul_2exp_si b b goal
+                    f <- makeFunPtr f_atanderiv
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    arb_add_error_2exp_si (acb_realref s) (-goal)
+                    acb_mul_2exp_si s s 1
+                    return ()
+                  3 -> do
+                    acb_set_si a 0
+                    acb_set_si b 1
+                    f <- makeFunPtr f_circle
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    acb_mul_2exp_si s s 2
+                    return ()
+                  4 -> do
+                    acb_set_si a 0
+                    acb_set_si b 8
+                    f <- makeFunPtr f_rump
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  5 -> do
+                    acb_set_si a 1
+                    acb_set_si b 101
+                    f <- makeFunPtr f_floor
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  6 -> do
+                    acb_set_si a 0
+                    acb_set_si b 1
+                    f <- makeFunPtr f_helfgott
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  7 -> do
+                    acb_zero s
+                    f <- makeFunPtr f_zeta
+
+                    acb_set_d_d a (-1.0) (-1.0)
+                    acb_set_d_d b 2.0 (-1.0)
+                    acb_calc_integrate t f nullPtr a b goal tol opts prec
+                    acb_add s s t prec
+
+                    acb_set_d_d a 2.0 (-1.0)
+                    acb_set_d_d b 2.0 1.0
+                    acb_calc_integrate t f nullPtr a b goal tol opts prec
+                    acb_add s s t prec
+
+                    acb_set_d_d a 2.0 1.0
+                    acb_set_d_d b (-1.0) 1.0
+                    acb_calc_integrate t f nullPtr a b goal tol opts prec
+                    acb_add s s t prec
+
+                    acb_set_d_d a (-1.0) 1.0
+                    acb_set_d_d b (-1.0) (-1.0)
+                    acb_calc_integrate t f nullPtr a b goal tol opts prec
+                    acb_add s s t prec
+
+                    acb_const_pi t prec
+                    acb_div s s t prec
+                    acb_mul_2exp_si s s (-1)
+                    acb_div_onei s s
+                    return()
+                  8 -> do
+                    acb_set_d a 0
+                    acb_set_d b 1
+                    f <- makeFunPtr f_essing
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  9 -> do
+                    acb_set_d a 0
+                    acb_set_d b 1
+                    f <- makeFunPtr f_essing2
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  10 -> do
+                    acb_set_d a 0
+                    acb_set_d b 10000
+                    f <- makeFunPtr f_factorial1000
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  11 -> do
+                    acb_set_d_d a 1.0 0.0
+                    acb_set_d_d b 1.0 1000.0
+                    f <- makeFunPtr f_gamma
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  12 -> do
+                    acb_set_d a (-10.0)
+                    acb_set_d b 10.0
+                    f <- makeFunPtr f_sin_plus_small
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  13 -> do
+                    acb_set_d a (-1020.0)
+                    acb_set_d b (-1010.0)
+                    f <- makeFunPtr f_exp
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  14 -> do
+                    acb_set_d a 0
+                    acb_set_d b $ fromIntegral
+                                $ ceiling 
+                                $ sqrt (fromIntegral goal * log 2 + 1)
+                    f <- makeFunPtr f_exp
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  15 -> do
+                    acb_set_d a 0.0
+                    acb_set_d b 1.0
+                    f <- makeFunPtr f_spike
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    return ()
+                  16 -> do
+                     acb_set_d a 0.0
+                     acb_set_d b 8.0
+                     f <- makeFunPtr f_monster
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     return ()
+                  17 -> do
+                    acb_set_d a 0
+                    acb_set_d b $ fromIntegral
+                                $ ceiling 
+                                $ fromIntegral goal * log 2 + 1
+                    f <- makeFunPtr f_sech
+                    acb_calc_integrate s f nullPtr a b goal tol opts prec
+                    acb_neg b b
+                    acb_exp b b prec
+                    acb_mul_2exp_si b b 1
+                    arb_add_error (acb_realref s) (acb_realref b)
+                    return ()
+                  18 -> do
+                     acb_set_d a 0
+                     acb_set_d b $ fromIntegral
+                                 $ ceiling 
+                                 $ fromIntegral goal * log 2  / 3 + 2
+                     f <- makeFunPtr f_sech3
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     acb_neg b b              
+                     acb_mul_ui b b 3 prec
+                     acb_exp b b prec
+                     acb_mul_2exp_si b b 3
+                     acb_div_ui b b 3 prec
+                     arb_add_error (acb_realref s) (acb_realref b)
+                     return ()
+                  19 -> do
+                     when (goal < 0) $ do error "goal < 0"
+                     -- error bound 2^-N (1+N) when truncated at 2^-N
+                     let n = goal
+                           + (fromIntegral . finiteBitSize) goal
+                           - (fromIntegral . countLeadingZeros) goal
+                     acb_one a
+                     acb_mul_2exp_si a  a (-n)
+                     acb_one b
+                     f <- makeFunPtr f_log_div1p
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     acb_set_si b (n + 1)
+                     acb_mul_2exp_si b b (-n)
+                     arb_add_error (acb_realref s) (acb_realref b)
+                     return ()
+                  _ -> do
+                    putStrLn "everything else"
+                    return ()
+                let digits = round (0.333 * fromIntegral prec) :: CLong
+                putStrLn $ "I" ++ show j ++ " = " ++ desc
+                acb_printn s digits arb_str_none
+                putStr "\n\n"
   return ()
   
 data Parameters = Parameters {
@@ -163,7 +294,7 @@ parameters = Parameters
       help "verbosity level"
    <> short 'v'
    <> long "verbosity"
-   <> value 0
+   <> value 1
    <> metavar "verbosity")
   <*> option pos (
       help "use quadrature degree up to n"
