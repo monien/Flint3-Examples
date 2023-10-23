@@ -33,9 +33,9 @@ main = run =<< execParser opts where
 
 run params = do
   if list params then do
-    let desc = fst $ unzip integrands
+    let desc = map fst integrands
     putStrLn "List of implemented integrals:\n"
-    mapM_ (\(x, y) -> printf "  %2d  %s\n" x y) $ zip [0 :: Int ..] desc
+    mapM_ (uncurry (printf "  %2d  %s\n")) $ zip [0 :: Int ..] desc
   else do
     calc params
     
@@ -220,17 +220,66 @@ calc params@(Parameters list range prec goal' tol twice
                   19 -> do
                      when (goal < 0) $ do error "goal < 0"
                      -- error bound 2^-N (1+N) when truncated at 2^-N
-                     let n = goal
-                           + (fromIntegral . finiteBitSize) goal
-                           - (fromIntegral . countLeadingZeros) goal
+                     let bitCount x = finiteBitSize x - countLeadingZeros x
+                         n = goal + fromIntegral (bitCount goal)
                      acb_one a
                      acb_mul_2exp_si a  a (-n)
                      acb_one b
                      f <- makeFunPtr f_log_div1p
                      acb_calc_integrate s f nullPtr a b goal tol opts prec
-                     acb_set_si b (n + 1)
+                     acb_set_si b (n+1)
                      acb_mul_2exp_si b b (-n)
                      arb_add_error (acb_realref s) (acb_realref b)
+                     return ()
+                  20 -> do
+                     when (goal < 0) $ do error "goal < 0"
+                     -- error bound (N+1) exp(-N) when truncated at N
+                     let bitCount x = finiteBitSize x - countLeadingZeros x
+                         n = goal + fromIntegral (bitCount goal)
+                     acb_one a
+                     acb_set_si b n
+                     f <- makeFunPtr f_log_div1p_transformed
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     acb_neg b b
+                     acb_exp b b prec
+                     acb_mul_si b b (n+1) prec
+                     arb_add_error (acb_realref s) (acb_realref b)
+                     return ()
+                  23 -> do
+                     acb_set_d a 0.0
+                     acb_set_d b 1000.0
+                     f <- makeFunPtr f_lambertw 
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     return ()
+                  24 -> do
+                     acb_set_d a 0.0
+                     acb_const_pi b prec
+                     f <- makeFunPtr f_max_sin_cos
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     return ()
+                  25 -> do
+                     acb_set_si a (-1)
+                     acb_set_si b 1
+                     f <- makeFunPtr f_erf_bent
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     return ()
+                  26 -> do
+                     acb_set_si a (-10)
+                     acb_set_si b 10
+                     f <- makeFunPtr f_airy_ai
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     return ()
+                  27 -> do
+                     acb_set_si a 0
+                     acb_set_si b 10
+                     f <- makeFunPtr f_horror
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
+                     return ()
+                  28 -> do
+                     acb_set_d_d a (-1) (-1)
+                     acb_set_d_d b (-1) 1
+                     f <- makeFunPtr f_sqrt
+                     acb_calc_integrate s f nullPtr a b goal tol opts prec
                      return ()
                   _ -> do
                     putStrLn "everything else"
@@ -325,7 +374,7 @@ rng = eitherReader $ \s -> do
   if 0 <= a && a <= b && b < length integrands - 1 then
     Right result
   else
-    Left $ "could not parse range"
+    Left "could not parse range"
   
 pos :: (Read a, Integral a) => ReadM a
 pos = eitherReader $ \s -> do
@@ -333,7 +382,7 @@ pos = eitherReader $ \s -> do
   if result >= 0 then 
     Right result
   else
-    Left $ "expected positive number"
+    Left "expected positive number"
 
 mag = eitherReader $ \s -> do
   case readMaybe s of
@@ -373,7 +422,7 @@ mkMag prec s = unsafePerformIO $ do
       withCString s $ \s -> do
         arb_set_str x s prec
         arb_get_mag m x
-  return $ result
+  return result
      
 parseFloat = do
   munch (\x -> x == '+' || x == '-')
