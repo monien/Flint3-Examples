@@ -124,6 +124,7 @@ parameters = Parameters
   <*> option rng (
       help "range (for example --range 2:6 or --range 7)"  
    <> long "range"
+   <> short 'r'
    <> value (Range (0, length integrands-1))
    <> metavar "range")
   <*> option pos (
