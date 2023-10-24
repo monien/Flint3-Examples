@@ -238,7 +238,7 @@ calc params@(Parameters list range prec goal' tol twice
                   21 -> do
                     f <- makeFunPtr f_elliptic_p_laurent_n
                     let n = 10 ::CLong
-                        points = [(1, -1), (1, 1), (-1, 1), (-1, 1)]
+                        points = [(1, -1), (1, 1), (-1, 1), (-1, -1)]
                         path = zip points $ tail $ cycle points
                     acb_zero s
                     with n $ \np -> do
@@ -248,10 +248,6 @@ calc params@(Parameters list range prec goal' tol twice
                         acb_set_si_si b x2 y2
                         acb_div_ui a a 2 prec
                         acb_div_ui b b 2 prec
-                        acb_printn a 16 arb_str_no_radius
-                        putStr "\n"
-                        acb_printn b 16 arb_str_no_radius
-                        putStr "\n"
                         acb_calc_integrate t f p a b goal tol opts prec
                         acb_add s s t prec
                     acb_const_pi t prec
@@ -399,7 +395,7 @@ calc params@(Parameters list range prec goal' tol twice
                     acb_calc_integrate s f nullPtr a b goal tol opts prec
                     return ()
                   _ -> do
-                    putStrLn $ "everything else" ++ show j
+                    error "case does not exists."
                     return ()
                 let digits = round (0.333 * fromIntegral prec) :: CLong
                 putStrLn $ "I" ++ show j ++ " = " ++ desc
@@ -423,7 +419,7 @@ scaled_bessel_select_N n k prec = do
   let f = log (fromIntegral k / pi) / log 2 :: CDouble
       c e = fromIntegral e * fromIntegral k / 2 - f - fromIntegral e
           < fromIntegral prec + 5
-      e = (last $ takeWhile c [1, 2 ..])
+      e = last $ takeWhile c [1, 2 ..]
   arb_one n
   arb_mul_2exp_si n n e
 
@@ -482,7 +478,7 @@ parameters = Parameters
       help "verbosity level"
    <> short 'v'
    <> long "verbosity"
-   <> value 1
+   <> value 0
    <> metavar "verbosity")
   <*> option pos (
       help "use quadrature degree up to n"
