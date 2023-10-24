@@ -1,5 +1,5 @@
 module Integrands (
-  integrands
+  description
 , makeFunPtr
 -- * Functions
 , f_airy_ai
@@ -50,7 +50,7 @@ import Data.Number.Flint
 
 integrands = zip description hFunctions
 
-foreign import ccall "wrapper"
+foreign import ccall safe "wrapper"
   makeFunPtr :: CAcbCalcFunc -> IO (FunPtr CAcbCalcFunc)
 
 --------------------------------------------------------------------------------
@@ -176,7 +176,7 @@ f_gaussian res z param order prec = do
   when (order > 1) $ error "order > 1 would be needed for Taylor method."
   acb_mul z z z prec
   acb_neg z z
-  acb_exp res res prec
+  acb_exp res z prec
   return 0
 
 -- f(z) = exp(-z^2+iz)
@@ -300,7 +300,7 @@ f_rgamma res z param order prec = do
 -- f(z) = rsqrt(z)
 f_rsqrt res z param order prec = do
   when (order > 1) $ error "order > 1 would be needed for Taylor method."
-  acb_rsqrt res z prec
+  acb_rsqrt_analytic res z (if order /= 0 then 1 else 0) prec
   return 0
 
 -- f(z) = sin(z + exp(z)) -- Rump's oscillatory example
@@ -425,7 +425,7 @@ f_zeta_frac res z param order prec = do
   when (order > 1) $ error "order > 1 would be needed for Taylor method."
   t <- _acb_vec_init 2
   acb_dirichlet_zeta_jet t z 0 2 prec
-  acb_div res t (t `advancePtr` 1) prec
+  acb_div res (t `advancePtr` 1) t prec
   _acb_vec_clear t 2
   return 0
 
