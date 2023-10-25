@@ -83,13 +83,21 @@ executables:
   hilbert_matrix:
     source-dirs: app/hilbert_matrix
     main: Main.hs
+  padic:
+    source-dirs: app/padic
+    main: Main.hs
+  partitions:
+    source-dirs: app/partitions
+    main: Main.hs
   pi_digits:
     source-dirs: app/pi_digits
     main: Main.hs
   primegen:
     source-dirs: app/primegen
     main: Main.hs
-      
+  stirling_matrix:
+    source-dirs: app/stirling_matrix
+    main: Main.hs
 tests:
   Flint2-Examples-test:
     main: Spec.hs
