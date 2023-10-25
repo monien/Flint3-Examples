@@ -337,6 +337,21 @@ executable stirling_matrix
     , timeit
   default-language: Haskell2010
 
+executable zeta_zeros
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/zeta_zeros
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 test-suite Flint2-Examples-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs

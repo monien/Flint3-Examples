@@ -48,8 +48,6 @@ import Control.Monad
 
 import Data.Number.Flint
 
-integrands = zip description hFunctions
-
 foreign import ccall safe "wrapper"
   makeFunPtr :: CAcbCalcFunc -> IO (FunPtr CAcbCalcFunc)
 
@@ -473,8 +471,8 @@ description =
 
 --------------------------------------------------------------------------------
 
-hFunctions :: [CAcbCalcFunc]
-hFunctions =
+functions :: [CAcbCalcFunc]
+functions =
   [
     f_airy_ai
   , f_atanderiv

@@ -1,112 +1,149 @@
 options: deg=0 eval=0 depth=0 heap=0 verbosity=0
 I0 = int_0^100 sin(x) dx
+computation time: 0.002 sec
 [0.137681127712316 +/- 4.39e-16]
 
 I1 = 4 int_0^1 1/(1+x^2) dx
+computation time: 0.000 sec
 [3.14159265358979324 +/- 6.29e-18]
 
 I2 = 2 int_0^{inf} 1/(1+x^2) dx   (using domain truncation)
+computation time: 0.008 sec
 [3.1415926535897932 +/- 4.46e-17]
 
 I3 = 4 int_0^1 sqrt(1-x^2) dx
+computation time: 0.002 sec
 [3.1415926535897932 +/- 4.69e-17]
 
 I4 = int_0^8 sin(x+exp(x)) dx
+computation time: 0.012 sec
 [0.34740017265725 +/- 3.34e-15]
 
 I5 = int_1^101 floor(x) dx
+computation time: 0.030 sec
 [5050.000000000000 +/- 2.67e-13]
 
 I6 = int_0^1 |x^4+10x^3+19x^2-6x-6| exp(x) dx
+computation time: 0.005 sec
 [11.1473105500571397 +/- 5.42e-17]
 
 I7 = 1/(2 pi i) int zeta(s) ds  (closed path around s = 1)
+computation time: 0.137 sec
 [1.0000000000000000 +/- 2.74e-18] + [+/- 1.07e-18]*I
 
 I8 = int_0^1 sin(1/x) dx  (slow convergence, use -heap and/or -tol)
+computation time: 0.232 sec
 [+/- 0.737]
 
 I9 = int_0^1 x sin(1/x) dx  (slow convergence, use -heap and/or -tol)
+computation time: 0.292 sec
 [+/- 0.507]
 
 I10 = int_0^10000 x^1000 exp(-x) dx
+computation time: 0.059 sec
 [4.023872600770938e+2567 +/- 8.27e+2551]
 
 I11 = int_1^{1+1000i} gamma(x) dx
+computation time: 0.004 sec
 [0.15447964132004274 +/- 5.18e-18] + [1.15572734979092172 +/- 4.63e-18]*I
 
 I12 = int_{-10}^{10} sin(x) + exp(-200-x^2) dx
+computation time: 0.001 sec
 [+/- 1.96e-17]
 
 I13 = int_{-1020}^{-1010} exp(x) dx  (use -tol 0 for relative error)
+computation time: 0.000 sec
 [+/- 2.31e-438]
 
 I14 = int_0^{inf} exp(-x^2) dx   (using domain truncation)
-[1095.63315842845860 +/- 3.95e-15]
+computation time: 0.000 sec
+[0.88622692545275801 +/- 4.31e-18]
 
 I15 = int_0^1 sech(10(x-0.2))^2 + sech(100(x-0.4))^4 + sech(1000(x-0.6))^6 dx
+computation time: 0.007 sec
 [0.21080273550054928 +/- 4.55e-18]
 
 I16 = int_0^8 (exp(x)-floor(exp(x))) sin(x+exp(x)) dx  (use higher -eval)
+computation time: 0.376 sec
 [+/- 5.45e+3]
 
 I17 = int_0^{inf} sech(x) dx   (using domain truncation)
+computation time: 0.001 sec
 [1.57079632679489662 +/- 3.77e-18]
 
 I18 = int_0^{inf} sech^3(x) dx   (using domain truncation)
+computation time: 0.000 sec
 [0.78539816339744831 +/- 2.24e-18]
 
 I19 = int_0^1 -log(x)/(1+x) dx   (using domain truncation)
+computation time: 0.004 sec
 [0.8224670334241132 +/- 2.24e-17]
 
 I20 = int_0^{inf} x exp(-x)/(1+exp(-x)) dx   (using domain truncation)
-[0.65190968392167501 +/- 4.65e-18]
+computation time: 0.001 sec
+[0.82246703342411322 +/- 3.72e-18]
 
 I21 = int_C wp(x)/x^(11) dx   (contour for 10th Laurent coefficient of Weierstrass p-function)
-nan + nan*I
+computation time: 0.055 sec
+[43.3273391411077 +/- 4.52e-14] + [+/- 1.95e-14]*I
 
 I22 = N(1000) = count zeros with 0 < t <= 1000 of zeta(s) using argument principle
+computation time: 3.109 sec
 [649.000000000000000 +/- 3.12e-16]
 
 I23 = int_0^{1000} W_0(x) dx
+computation time: 0.002 sec
 [4439.0934529510299 +/- 3.16e-14]
 
 I24 = int_0^pi max(sin(x), cos(x)) dx
+computation time: 0.010 sec
 [2.4142135623730950 +/- 7.41e-17]
 
 I25 = int_{-1}^1 erf(x/sqrt(0.0002)*0.5+1.5)*exp(-x) dx
+computation time: 0.004 sec
 [-0.9990653502919225 +/- 3.27e-17]
 
 I26 = int_{-10}^10 Ai(x) dx
+computation time: 0.003 sec
 [1.0990317364333819 +/- 4.12e-17]
 
 I27 = int_0^10 (x-floor(x)-1/2) max(sin(x),cos(x)) dx
+computation time: 0.091 sec
 [-0.1428186420263281 +/- 6.23e-17]
 
 I28 = int_{-1-i}^{-1+i} sqrt(x) dx
+computation time: 0.004 sec
 [+/- 7.17e-18] + [0.47520766279255650 +/- 4.43e-18]*I
 
 I29 = int_0^{inf} exp(-x^2+ix) dx   (using domain truncation)
-[0.69019422352157149 +/- 4.58e-18] + [0.42443638350202230 +/- 5.57e-18]*I
+computation time: 0.000 sec
+[0.69019422352157149 +/- 4.38e-18] + [0.42443638350202230 +/- 5.39e-18]*I
 
 I30 = int_0^{inf} exp(-x) Ai(-x) dx   (using domain truncation)
+computation time: 0.018 sec
 [0.37875160537908653 +/- 5.86e-18]
 
 I31 = int_0^pi x sin(x) / (1 + cos(x)^2) dx
+computation time: 0.001 sec
 [2.4674011002723397 +/- 5.51e-17]
 
 I32 = int_0^3 sin(0.001 + (1-x)^2)^(-3/2)) dx  (slow convergence, use higher -eval)
+computation time: 0.290 sec
 [0.74997436852719 +/- 8.53e-15]
 
 I33 = int_0^{inf} exp(-x) I_0(x/3)^3 dx   (using domain truncation)
+computation time: 0.106 sec
 [1.5163860591519780 +/- 2.68e-17]
 
 I34 = int_0^{inf} exp(-x) I_0(x/15)^{15} dx   (using domain truncation)
+computation time: 0.045 sec
 [1.037204120921522 +/- 8.51e-16]
 
 I35 = int_{-1-i}^{-1+i} 1/sqrt(x) dx
-[+/- 7.17e-18] + [0.47520766279255650 +/- 4.43e-18]*I
+computation time: 0.006 sec
+[+/- 5.47e-18] + [0.39473645387123986 +/- 6.54e-18]*I
 
 I36 = int_0^{inf} 1/gamma(x) dx   (using domain truncation)
+computation time: 0.001 sec
 [2.8077702420285194 +/- 4.51e-17]
 

@@ -98,6 +98,9 @@ executables:
   stirling_matrix:
     source-dirs: app/stirling_matrix
     main: Main.hs
+  zeta_zeros:
+    source-dirs: app/zeta_zeros
+    main: Main.hs
 tests:
   Flint2-Examples-test:
     main: Spec.hs
