@@ -8,13 +8,18 @@ import Data.Number.Flint
 main = run =<< execParser opts where
   desc = "Reports the imaginary parts of consecutive nontrivial zeros \
          \of the Riemann zeta function."
-  opts = info (parameters <**> helper) (
+  opts = info (options <**> helper) (
          fullDesc
       <> progDesc desc
       <> header desc)
 
-run params@(Parameters n count prec digits platt verbosity num_threads) = do
-  print params
+run opts@(Options n count accuracy platt verbosity num_threads) = do
+  print opts
+  let (prec, digits) = case accuracy of
+        Precision p -> (p, round (fromIntegral p * logBase 10 2 + 1))
+        Digits d    -> (round (fromIntegral digits / logBase 10 2 + 3), d)
+  putStrLn $ "prec = " ++ show prec
+  putStrLn $ "digits = " ++ show digits
   -- withNewFmpz $ \requested -> do
   --   withNewFmpz $ \count -> do
   --     withNewFmpz $ \nstart -> do
@@ -22,51 +27,71 @@ run params@(Parameters n count prec digits platt verbosity num_threads) = do
   --         fmpz_one nstart
   --         fmpz_set_si requested (-1)
 
-data Parameters = Parameters {
-    n :: Fmpz
-  , count :: Fmpz
-  , prec :: CLong 
-  , digits :: CLong
-  , platt :: Bool
-  , verbosity :: Int
-  , num_threads :: Int
-  } deriving Show
+data Options = Options {
+  n :: Fmpz
+, count :: Fmpz
+, accuracy :: Accuracy
+, platt :: Bool
+, verbosity :: Int
+, num_threads :: Int
+} deriving Show
 
-parameters :: Parser Parameters
-parameters = Parameters
-  <$> option auto (
+data Accuracy = Precision CLong | Digits CLong deriving Show
+
+options :: Parser Options
+options = Options
+  <$> option pos (
       help "positive integer n"
+   <> short 'n'
    <> value 10
    <> metavar "n")
-  <*> option auto (
+  <*> option pos (
       long "count"
    <> value 0
+   <> short 'c'
    <> metavar "count")
-  <*> option auto (
-      help "precision."
-   <> long "prec"
-   <> short 'p'
-   <> value 64
-   <> metavar "prec")
-  <*> option auto (
-      help "number of digits."
-   <> long "digits"
-   <> metavar "digits")
+  <*> optionAccuracy
   <*> switch (
       help "use platt algorithm."
    <> long "platt")
-  <*> option auto (
+  <*> option pos (
       help "verbosity."
    <> long "verbosity"
    <> short 'v'
    <> value 0
    <> metavar "verbosity")
-  <*> option auto (
+  <*> option pos (
       help "number of threads."
    <> long "threads"
+   <> short 't'
    <> value 1
    <> metavar "threads")
+
+optionAccuracy = optionPrecision <|> optionDigits
+
+optionPrecision :: Parser Accuracy
+optionPrecision =  Precision <$> option pos (
+      help "precision."
+   <> long "prec"
+   <> short 'p'
+   <> value 64
+   <> metavar "precision")
+
+optionDigits :: Parser Accuracy
+optionDigits = Digits <$> option pos (
+      help "number of digits."
+   <> long "digits"
+   <> short 'd'
+   <> metavar "digits")
    
+pos :: (Read a, Integral a) => ReadM a
+pos = eitherReader $ \s -> do
+  let result = read s
+  if result >= 0 then 
+    Right result
+  else
+    Left "expected positive number"
+
 print_zeros p n len digits = do
   withNewFmpz $ \k -> do
     fmpz_set k n
