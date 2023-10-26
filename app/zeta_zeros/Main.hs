@@ -7,19 +7,29 @@ import Data.Number.Flint
 
 main = run =<< execParser opts where
   desc = "Reports the imaginary parts of consecutive nontrivial zeros \
-         \of the Riemann zeta function."
+         \of the Riemann zeta function starting with the nth zero."
   opts = info (options <**> helper) (
          fullDesc
       <> progDesc desc
       <> header desc)
 
-run opts@(Options n count accuracy platt verbosity num_threads) = do
-  print opts
+run opts@(Options n_start count accuracy platt verbosity num_threads) = do
+  when (verbosity > 0) $ do print opts
   let (prec, digits) = case accuracy of
         Precision p -> (p, round (fromIntegral p * logBase 10 2 + 1))
         Digits d    -> (round (fromIntegral digits / logBase 10 2 + 3), d)
   putStrLn $ "prec = " ++ show prec
   putStrLn $ "digits = " ++ show digits
+  if platt && n_start < 10000 then do
+    putStrLn "This implementation of the platt algorithm \
+             \is not valid\n below the 10000th zero.\n"
+  else do 
+    let requested = min count 30000 
+        workingPrecision = if platt then 2*prec else prec
+        usePlatt = platt || (requested > 100 && n_start > 10^11)
+    p <- _arb_vec_init $ fromIntegral requested
+    putStrLn "done."
+  
   -- withNewFmpz $ \requested -> do
   --   withNewFmpz $ \count -> do
   --     withNewFmpz $ \nstart -> do
@@ -28,7 +38,7 @@ run opts@(Options n count accuracy platt verbosity num_threads) = do
   --         fmpz_set_si requested (-1)
 
 data Options = Options {
-  n :: Fmpz
+  n_start :: Fmpz
 , count :: Fmpz
 , accuracy :: Accuracy
 , platt :: Bool
@@ -38,21 +48,25 @@ data Options = Options {
 
 data Accuracy = Precision CLong | Digits CLong deriving Show
 
+-- option parser ---------------------------------------------------------------
+
 options :: Parser Options
 options = Options
   <$> option pos (
-      help "positive integer n"
+      help "integer n > 0. start from nth zero."
    <> short 'n'
-   <> value 10
+   <> value 1
    <> metavar "n")
   <*> option pos (
-      long "count"
-   <> value 0
+      help "number of zeros to calculate (<30000)."
+   <> long "count"
    <> short 'c'
+   <> value 30000
    <> metavar "count")
   <*> optionAccuracy
   <*> switch (
       help "use platt algorithm."
+   <> showDefault
    <> long "platt")
   <*> option pos (
       help "verbosity."
@@ -74,7 +88,6 @@ optionPrecision =  Precision <$> option pos (
       help "precision."
    <> long "prec"
    <> short 'p'
-   <> value 64
    <> metavar "precision")
 
 optionDigits :: Parser Accuracy
@@ -91,6 +104,8 @@ pos = eitherReader $ \s -> do
     Right result
   else
     Left "expected positive number"
+
+--------------------------------------------------------------------------------
 
 print_zeros p n len digits = do
   withNewFmpz $ \k -> do

@@ -8,7 +8,7 @@ import Foreign.Ptr
 import Data.Number.Flint
 
 main = run =<< execParser opts where
-  desc = "Compute nth coefficient of the q-expansion of the weight\
+  desc = "Compute nth coefficient of the q-expansion of the weight \
        \12 cusp form."
   opts = info (parameters <**> helper) (
          fullDesc
@@ -30,6 +30,14 @@ data Parameters = Parameters {
 
 parameters :: Parser Parameters
 parameters = Parameters
-  <$> argument auto (
+  <$> argument pos (
       help "positive integer n"
    <> metavar "n")
+
+pos :: (Read a, Integral a) => ReadM a
+pos = eitherReader $ \s -> do
+  let result = read s
+  if result >= 0 then 
+    Right result
+  else
+    Left "expected positive number"
