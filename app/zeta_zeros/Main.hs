@@ -1,3 +1,4 @@
+import System.IO.Unsafe
 import Options.Applicative
 import Control.Monad
 import Foreign.C.Types
@@ -15,35 +16,46 @@ main = run =<< execParser opts where
 
 run opts@(Options n_start count accuracy platt verbosity num_threads) = do
   when (verbosity > 0) $ do print opts
-  let (prec, digits) = case accuracy of
-        Precision p -> (p, round (fromIntegral p * logBase 10 2 + 1))
-        Digits d    -> (round (fromIntegral digits / logBase 10 2 + 3), d)
-  putStrLn $ "prec = " ++ show prec
-  putStrLn $ "digits = " ++ show digits
   if platt && n_start < 10000 then do
     putStrLn "This implementation of the platt algorithm \
              \is not valid\n below the 10000th zero.\n"
-  else do 
-    let requested = min count 30000 
-        workingPrecision = if platt then 2*prec else prec
+  else do
+    flint_set_num_threads num_threads
+    let (prec, digs) = case accuracy of
+          Just (Precision p) -> (p, d2p p)
+          Just (Digits d)    -> (p2d d, d)
+          Nothing  -> (pDefault, p2d pDefault)
+          where pDefault = 64 + ceiling (logBase 2 (fromIntegral n_start))
+        d2p p = round (fromIntegral p * log 2 + 1)
+        p2d d = round (fromIntegral d / log 2 + 3)
+        requested = fromIntegral $ min count 30000 
         usePlatt = platt || (requested > 100 && n_start > 10^11)
-    p <- _arb_vec_init $ fromIntegral requested
+        workingPrecision = if platt then 2*prec else prec
+        digits = p2d workingPrecision
+    putStrLn $ "precision = " ++ show workingPrecision
+    putStrLn $ "digits = " ++ show digits
+    p <- _arb_vec_init requested
+    let n = fromInteger n_start :: Fmpz
+    withFmpz n $ \n -> do
+       if not platt then do
+         acb_dirichlet_hardy_z_zeros p n requested prec
+         print_zeros p n_start requested digits
+       else do 
+          found <- acb_dirichlet_platt_local_hardy_z_zeros p n requested prec
+          if ( found > 0 ) then do
+            print_zeros p n_start found digits
+          else do
+            putStrLn "Failed to find some zero.\nIncrease precision.\n"
+    _arb_vec_clear p $ fromIntegral requested
     putStrLn "done."
   
-  -- withNewFmpz $ \requested -> do
-  --   withNewFmpz $ \count -> do
-  --     withNewFmpz $ \nstart -> do
-  --       withFmpz $ \n -> do
-  --         fmpz_one nstart
-  --         fmpz_set_si requested (-1)
-
 data Options = Options {
-  n_start :: Fmpz
-, count :: Fmpz
-, accuracy :: Accuracy
+  n_start :: Integer
+, count :: Integer
+, accuracy :: Maybe Accuracy
 , platt :: Bool
 , verbosity :: Int
-, num_threads :: Int
+, num_threads :: CInt
 } deriving Show
 
 data Accuracy = Precision CLong | Digits CLong deriving Show
@@ -63,7 +75,7 @@ options = Options
    <> short 'c'
    <> value 30000
    <> metavar "count")
-  <*> optionAccuracy
+  <*> optional optionAccuracy
   <*> switch (
       help "use platt algorithm."
    <> showDefault
@@ -107,14 +119,19 @@ pos = eitherReader $ \s -> do
 
 --------------------------------------------------------------------------------
 
-print_zeros p n len digits = do
-  withNewFmpz $ \k -> do
-    fmpz_set k n
-    forM_ [0 .. len-1] $ \i -> do
-      fmpz_print k
-      putStr "\t"
-      arb_printn (p `advancePtr` i) digits arb_str_no_radius
-      putStr "\n"
-      fmpz_add_ui k k 1
+print_zeros p n_start len digits = do
+  forM_ [0 .. fromIntegral len - 1] $ \j -> do
+    putStr $ show (fromIntegral n_start + j) ++ "\t"
+    arb_printn (p `advancePtr` j) digits arb_str_no_radius
+    putStr "\n"
+-- print_zeros p n len digits = do
+--   withNewFmpz $ \k -> do
+--     fmpz_set k n
+--     forM_ [0 .. len-1] $ \i -> do
+--       fmpz_print k
+--       putStr "\t"
+--       arb_printn (p `advancePtr` i) digits arb_str_no_radius
+--       putStr "\n"
+--       fmpz_add_ui k k 1
 
 
