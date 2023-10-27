@@ -95,6 +95,9 @@ executables:
   primegen:
     source-dirs: app/primegen
     main: Main.hs
+  qadic:
+    source-dirs: app/qadic
+    main: Main.hs
   stirling_matrix:
     source-dirs: app/stirling_matrix
     main: Main.hs

@@ -1,6 +1,7 @@
 import System.IO.Unsafe
 import Options.Applicative
 import Control.Monad
+import Control.Monad.State
 import Foreign.C.Types
 import Foreign.Marshal.Array 
 
@@ -32,23 +33,45 @@ run opts@(Options n_start count accuracy platt verbosity num_threads) = do
         usePlatt = platt || (requested > 100 && n_start > 10^11)
         workingPrecision = if platt then 2*prec else prec
         digits = p2d workingPrecision
-    putStrLn $ "precision = " ++ show workingPrecision
-    putStrLn $ "digits = " ++ show digits
     p <- _arb_vec_init requested
     let n = fromInteger n_start :: Fmpz
+    -- _ <- runStateT (calculate p platt requested prec digits) (n, 0, 0, 0)
+    -- return ()
     withFmpz n $ \n -> do
        if not platt then do
          acb_dirichlet_hardy_z_zeros p n requested prec
          print_zeros p n_start requested digits
        else do 
-          found <- acb_dirichlet_platt_local_hardy_z_zeros p n requested prec
-          if ( found > 0 ) then do
-            print_zeros p n_start found digits
-          else do
-            putStrLn "Failed to find some zero.\nIncrease precision.\n"
+         found <- acb_dirichlet_platt_local_hardy_z_zeros p n requested prec
+         if ( found > 0 ) then do
+           print_zeros p n_start found digits
+         else do
+           putStrLn "Failed to find some zero.\nIncrease precision.\n"
     _arb_vec_clear p $ fromIntegral requested
-    putStrLn "done."
-  
+
+-- calculate :: Ptr CArb -> Bool -> Integer -> CLong -> CLong
+--           -> StateT (Fmpz, Integer, Integer, Integer) IO ()
+-- calculate p platt requested prec digits = do
+--   (n, iter, count, num_old) <- get
+--   let num = if count + num_old > requested then requested-count-1 else 2*num_old
+--   withFmpz n $ \n -> do 
+--     if not platt then do
+--       acb_dirichlet_hardy_z_zeros p n num prec
+--       print_zeros p n_start num digits
+--       fmpz_add_ui n n (fromIntegral num)
+--       put (n, succ iter, count + num, num)
+--     else do
+--       found <- acb_dirichlet_platt_local_hardy_z_zeros p n num prec
+--       print_zeros p n_start found digits
+--       if ( found > 0 ) then do
+--         print_zeros p n_start found digits
+--       else do
+--         error "Failed to find some zero.\nIncrease precision.\n"
+--       fmpz_add_ui n n (fromIntegral found)
+--       put (n, succ iter, count + found, num)
+--   when (count < requested) $ do calculate p platt requested prec digits
+
+ 
 data Options = Options {
   n_start :: Integer
 , count :: Integer
