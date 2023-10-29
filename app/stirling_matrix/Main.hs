@@ -23,7 +23,7 @@ run n = do
   let p = s1*s2
   putStrLn "S1 [Stirling numbers of 1st kind]:"
   print s1
-  putStrLn "S2 [Stirling numbers of 1st kind]:"
+  putStrLn "S2 [Stirling numbers of 2nd kind]:"
   print s2
   putStrLn "S1 * S2:"
   print p

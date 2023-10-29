@@ -36,6 +36,12 @@ executables:
     main: Main.hs
     dependencies: time
     ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  binet:
+    source-dirs: app/binet
+    main: Main.hs
+  calcium:
+    source-dirs: app/calcium
+    main: Main.hs
   class_poly:
     source-dirs: app/class_poly
     main: Main.hs
@@ -82,6 +88,9 @@ executables:
     main: Main.hs
   hilbert_matrix:
     source-dirs: app/hilbert_matrix
+    main: Main.hs
+  keiper_li:
+    source-dirs: app/keiper_li
     main: Main.hs
   padic:
     source-dirs: app/padic

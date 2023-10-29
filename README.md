@@ -14,11 +14,13 @@ Examples for the [Flint2](https://hackage.haskell.org/package/Flint2) Haskell wr
 - fpwrap
 - hilbert_matrix
 - integrals
+- keiper_li
 - l_central
 - l_values
 - padic
 - partitions
 - pi_digits
 - primegen
+- qadic
 - stirling_matrix
 - zeta_zeros
