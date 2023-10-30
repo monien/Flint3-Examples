@@ -92,6 +92,9 @@ executables:
   keiper_li:
     source-dirs: app/keiper_li
     main: Main.hs
+  machin:
+    source-dirs: app/machin
+    main: Main.hs
   padic:
     source-dirs: app/padic
     main: Main.hs
