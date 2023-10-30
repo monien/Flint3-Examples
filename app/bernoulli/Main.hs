@@ -13,24 +13,28 @@ main = timeItNamed "time" $ run =<< execParser opts where
       <> progDesc desc
       <> header desc)
 
-run params@(Parameters n num_threads) = do
+run params@(Parameters n display num_threads) = do
   flint_set_num_threads num_threads
   x <- newFmpq
   withFmpq x $ \x -> bernoulli_fmpq_ui x n
-  when (n <= 100) $ print x
+  when (n <= 100 || display) $ print x
   
 data Parameters = Parameters {
     n :: CULong
+  , display :: Bool
   , num_threads :: CInt
 } deriving Show
 
 parameters :: Parser Parameters
 parameters = Parameters
   <$> argument auto (
-    help "n" <>
-    metavar "n")
+      help "n"
+   <> metavar "n")
+  <*> switch (
+      help "display value"
+   <> short 'd')
   <*> option auto (
-    help "number of threads" <>
-    long "threads" <>
-    value 1 <>
-    metavar "threads")
+      help "number of threads"
+   <> long "threads"
+   <> value 1
+   <> metavar "threads")

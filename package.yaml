@@ -113,6 +113,9 @@ executables:
   stirling_matrix:
     source-dirs: app/stirling_matrix
     main: Main.hs
+  swinnerton_dyer_poly:
+    source-dirs: app/swinnerton_dyer_poly
+    main: Main.hs
   zeta_zeros:
     source-dirs: app/zeta_zeros
     main: Main.hs

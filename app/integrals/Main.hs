@@ -43,7 +43,7 @@ run params = do
   else do
     calc params
     
-calc params@(Parameters list range prec goal' tol twice
+calc params@(Parameters list (Range (start, end)) prec opt_goal tol twice
                         heap verbose deg eval depth num_threads) = do
   numProcessors <- getNumProcessors
   if num_threads <= fromIntegral numProcessors then do 
@@ -54,8 +54,7 @@ calc params@(Parameters list range prec goal' tol twice
            ++ "choose [1.." ++ show numProcessors ++ "] threads."
     error msg
   let use_heap = if heap then 1 else 0
-      Range (start, end) = range
-      goal = if goal' == 0 then prec else goal'
+      goal = if opt_goal == 0 then prec else opt_goal
   opts <- newAcbCalcIntegrateOpt_ deg eval depth use_heap verbose
   print opts
   withAcbCalcIntegrateOpt opts $ \opts -> do
@@ -532,6 +531,13 @@ pos = eitherReader $ \s -> do
     Right result
   else
     Left "expected positive number"
+
+between a b = eitherReader $ \s -> do
+  let result = read s
+  if a <= result && result <= b  then 
+    Right result
+  else
+    Left $ "expected number in range [" ++ show a ++ " .. " ++ show b ++ "]."
 
 mag = eitherReader $ \s -> do
   case readMaybe s of
