@@ -81,13 +81,10 @@ swinnerton_dyer_poly n = do
           withCaCtx ctx $ \ctx -> do
             withCa w $ \w -> do
               if testBit (j :: Int) k then do
-                putStr "+"
                 ca_add xj xj w ctx
               else do
-                putStr "-"
                 ca_sub xj xj w ctx    
       ) [0 .. n - 1] sqrt_primes
-    putStr "\n"
     withCaCtx ctx $ \ctx -> do
       withCa xj $ \xj -> do
         withCaPoly factor $ \f -> do
