@@ -45,8 +45,7 @@ between a b = eitherReader $ \s -> do
 
 f x 0 = x; f x n = f ((map (0:) x) ++ (map (1:) x)) (pred n)
 
-g [] = 0
-g (x:xs) = (g xs - x) * (g xs + x)
+g [] = 0; g (x:xs) = (g xs - x) * (g xs + x)
 
 swinnerton_dyer_poly n = do
   let m = 2 ^ n
