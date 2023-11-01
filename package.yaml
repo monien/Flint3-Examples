@@ -92,6 +92,9 @@ executables:
   l_central:
     source-dirs: app/l_values 
     main: Main.hs
+  hilbert_matrix_ca:
+    source-dirs: app/hilbert_matrix_ca
+    main: Main.hs
   hilbert_matrix:
     source-dirs: app/hilbert_matrix
     main: Main.hs

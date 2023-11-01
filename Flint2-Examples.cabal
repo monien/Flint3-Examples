@@ -275,6 +275,21 @@ executable hilbert_matrix
     , timeit
   default-language: Haskell2010
 
+executable hilbert_matrix_ca
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/hilbert_matrix_ca
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 executable integrals
   main-is: Main.hs
   other-modules:
