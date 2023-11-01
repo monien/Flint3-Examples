@@ -107,7 +107,9 @@ optionOutput = strOption (
       help "output file"
    <> short 'o'
    <> metavar "write output to file")
-   
+
+--------------------------------------------------------------------------------
+
 keiper_li_series z len prec = do
 
   t <- _arb_vec_init len

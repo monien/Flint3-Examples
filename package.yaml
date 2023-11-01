@@ -60,6 +60,12 @@ executables:
   delta_qexp:
     source-dirs: app/delta_qexp
     main: Main.hs
+  dft:
+    source-dirs: app/dft
+    main: Main.hs
+  elementary:
+    source-dirs: app/elementary
+    main: Main.hs
   factor_integer:
     source-dirs: app/factor_integer
     main: Main.hs
@@ -119,6 +125,7 @@ executables:
   zeta_zeros:
     source-dirs: app/zeta_zeros
     main: Main.hs
+    
 tests:
   Flint2-Examples-test:
     main: Spec.hs

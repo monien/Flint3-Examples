@@ -154,6 +154,36 @@ executable delta_qexp
     , timeit
   default-language: Haskell2010
 
+executable dft
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/dft
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
+executable elementary
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/elementary
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 executable factor_integer
   main-is: Main.hs
   other-modules:
