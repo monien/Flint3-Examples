@@ -1,8 +1,9 @@
-import Data.Number.Flint
-
 import Control.Monad
 import Foreign.C.Types
 import Foreign.C.String
+
+import Data.Number.Flint
+import Data.Number.Flint.Calcium
 
 main = do
   fileName <- newCString "calcium.out"
@@ -11,10 +12,17 @@ main = do
   cs <- newCalciumStreamFile fp
   ctx <- newCaCtx
   x <- newCa ctx
+  withCa x $ \x -> do
+    withCaCtx ctx $ \ctx -> do
+      ca_one x ctx
+      ca_div_ui x x 2 ctx
   v <- newCaVec 6 ctx
   poly <- newCaPoly ctx
   prod <- newCaPoly ctx
+  ext <- newCaExtFx ca_Cos x ctx
   withCaCtx ctx $ \ctx -> do
+    withCaExt ext $ \ext -> do
+      ca_ext_print ext ctx; putStr "\n"
     withCaPoly poly $ \poly -> do
       withCaPoly prod $ \prod -> do
         withCa x $ \x -> do
