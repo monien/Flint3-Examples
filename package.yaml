@@ -82,6 +82,9 @@ executables:
   fpwrap:
     source-dirs: app/fpwrap
     main: Main.hs
+  fq_poly:
+    source-dirs: app/fq_poly
+    main: Main.hs
   integrals:
     source-dirs: app/integrals
     main: Main.hs
@@ -107,6 +110,9 @@ executables:
   machin:
     source-dirs: app/machin
     main: Main.hs
+  multi_crt:
+    source-dirs: app/multi_crt
+    main: Main.hs  
   padic:
     source-dirs: app/padic
     main: Main.hs

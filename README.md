@@ -5,8 +5,11 @@ Haskell wrapper of the [Flint](https://flintlib.org) library.
 
 Most of these are directly "translated" from C to Haskell so they are
 written using "imperative" constructs in Haskell to demonstrate the
-use of the Haskell wrapper.
-
+use of the Haskell wrapper (not intended as examples of 
+elegant Haskell code). The structure of programs follows closely the
+structure of the C code (with some exceptions:
+e.g. swinnerton_dyer_poly uses a different algorithm, logistic uses a
+monad transformer instead of a for loop ...)
 
 * bernoulli
 * binet
@@ -22,13 +25,15 @@ use of the Haskell wrapper.
 * fmpz_mpoly_factor
 * fmpz_poly_factor_zassenhaus
 * fpwrap
-* hilber_matrix_ca
 * hilbert_matrix
+* hilbert_matrix_ca
 * integrals
 * keiper_li
 * l_central
 * l_values
+* logistic
 * machin
+* multi_crt
 * padic
 * partitions
 * pi_digits
@@ -36,4 +41,5 @@ use of the Haskell wrapper.
 * qadic
 * stirling_matrix
 * swinnerton_dyer_poly
+* taylor_integrals
 * zeta_zeros

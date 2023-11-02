@@ -260,6 +260,21 @@ executable fpwrap
     , timeit
   default-language: Haskell2010
 
+executable fq_poly
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/fq_poly
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 executable hilbert_matrix
   main-is: Main.hs
   other-modules:
@@ -373,6 +388,21 @@ executable machin
       Paths_Flint2_Examples
   hs-source-dirs:
       app/machin
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
+executable multi_crt
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/multi_crt
   build-depends:
       Flint2
     , base >=4.7 && <5
