@@ -13,11 +13,10 @@ import Data.Char
 import Data.Number.Flint
 
 main = run =<< execParser opts where
-  desc = "Discrete Fourier Transform."
   opts = info (options <**> helper) (
          fullDesc
-      <> progDesc desc
-      <> header desc)
+      <> progDesc "Discrete Fourier Transform for functions [0..5]."
+      <> header "Calculate Discrete Fourier Transform.")
 
 run opts@(Options n verbosity range qqbar_limit nogb timing num_threads) = do
   let desc = [ "x_k = k + 2"
@@ -52,12 +51,12 @@ data Options = Options {
 
 options :: Parser Options
 options = Options
-  <$> argument auto (
+  <$> argument pos (
       help "n"
    <> value 2
    <> metavar "n")
-  <*> option auto (
-      help "verbosity"
+  <*> option pos (
+      help "verbosity 0 .. "
    <> long "verbosity"
    <> short 'v'
    <> value 0
@@ -79,7 +78,7 @@ options = Options
       help "timing"
    <> long "timing"
    <> short 't')
-  <*> option auto (
+  <*> option pos (
       help "number of threads"
    <> long "threads"
    <> value 1
@@ -207,7 +206,7 @@ benchmark_DFT n input verbose qqbar_limit gb t ctx = do
       
   -- forward dft: x -> x'
 
-  when (verbose > 0) $ do putStrLn "\nDFT([x]) = "
+  when (verbose > 2) $ do putStrLn "\nDFT([x]) = "
 
   forM_ [0 .. n - 1] $ \k -> do
     let x'k = x' .+. k
@@ -217,12 +216,12 @@ benchmark_DFT n input verbose qqbar_limit gb t ctx = do
           wj = w .+. (((2 * n - k) * j) `mod` (2 * n))
       ca_mul t xj wj ctx
       ca_add x'k x'k t ctx
-    when (verbose > 0) $ do
+    when (verbose > 2) $ do
       ca_print x'k ctx; putStr "\n"
 
   -- inverse dft
 
-  when (verbose > 0) $ do putStrLn "\nIDFT(DFT([x])) ="
+  when (verbose > 2) $ do putStrLn "\nIDFT(DFT([x])) ="
 
   forM_ [0 .. n - 1] $ \k -> do
     let yk = y `advancePtr` (fromIntegral k)
@@ -233,7 +232,7 @@ benchmark_DFT n input verbose qqbar_limit gb t ctx = do
       ca_mul t x'j wj ctx
       ca_add yk yk t ctx
     ca_div_si yk yk n ctx
-    when (verbose > 0) $ do
+    when (verbose > 2) $ do
       ca_print yk ctx; putStr "\n"
 
   when (verbose > 0) $ do putStrLn "\n[x] - IDFT(DFT([x])) ="
