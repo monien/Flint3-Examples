@@ -17,7 +17,7 @@ main = run =<< execParser opts where
   opts = info (parameters <**> helper) 
        ( fullDesc
       <> progDesc "\nplotting special functions.\n"
-      <> header "test program for arb.")
+      <> header "Plotting special functions in the complex plane.")
 
 run :: Parameters -> IO ()
 run (Parameters xa xb ya yb w h colorMode f imgFile) = do
