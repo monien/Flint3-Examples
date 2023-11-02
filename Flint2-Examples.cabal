@@ -472,6 +472,21 @@ executable swinnerton_dyer_poly
     , timeit
   default-language: Haskell2010
 
+executable taylor_integrals
+  main-is: Main.hs
+  other-modules:
+      Paths_Flint2_Examples
+  hs-source-dirs:
+      app/taylor_integrals
+  build-depends:
+      Flint2
+    , base >=4.7 && <5
+    , containers
+    , mtl
+    , optparse-applicative
+    , timeit
+  default-language: Haskell2010
+
 executable zeta_zeros
   main-is: Main.hs
   other-modules:

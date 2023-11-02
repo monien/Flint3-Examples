@@ -125,6 +125,9 @@ executables:
   swinnerton_dyer_poly:
     source-dirs: app/swinnerton_dyer_poly
     main: Main.hs
+  taylor_integrals:
+    source-dirs: app/taylor_integrals
+    main: Main.hs
   zeta_zeros:
     source-dirs: app/zeta_zeros
     main: Main.hs
