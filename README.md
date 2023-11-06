@@ -88,10 +88,12 @@ Try complex_plot by typing:
 ```bash
 complex_plot
 ```
-This plots  the phase of the *Klein invariant* in the upper half
+This will plot  the phase of the *Klein invariant* in the upper half
 plane. 
-![examples of complex_plot](/docs/mj.png)
 
+<p align="center">
+  <img src="/docs/mj.png" />
+</p>
 
 The app complex_plot has many more options. Using the help option one obtains
 
