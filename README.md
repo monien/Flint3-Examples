@@ -66,7 +66,7 @@ Usage: factor_integer INTEGER [-t|--threads THREADS] [--timing]
   Factor integers.
 
 Available options:
-  INTEGER                  Integer given as expression.
+  INTEGER                  Integer given as expression (e.g. 2^64+1)
   -t,--threads THREADS     number of threads
   --timing                 timing
   -h,--help                Show this help text
@@ -75,11 +75,11 @@ Available options:
 Now typing 
 
 ```bash
-factor_integer 472314979327
+factor_integer 2^256-1
 ```
 returns
 ```bash
-[(97,1),(433,1),(11245327,1)]
+[(3,1),(5,1),(17,1),(257,1),(641,1),(65537,1),(274177,1),(6700417,1),(67280421310721,1),(59649589127497217,1),(5704689200685129054721,1)]
 ```
 
 ## A more advanced example: complex_plot
