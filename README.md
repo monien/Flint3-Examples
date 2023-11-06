@@ -89,8 +89,11 @@ Try complex_plot by typing:
 complex_plot
 ```
 This plots  the phase of the *Klein invariant* in the upper half
-plane. This example has many more options. Using the help option
-one obtains
+plane. 
+![examples of complex_plot](/docs/mj.png)
+
+
+The app complex_plot has many more options. Using the help option one obtains
 
 ```bash
 Plotting special functions in the complex plane.
