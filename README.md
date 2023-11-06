@@ -1,4 +1,4 @@
-![examples of complex_plot](https://hackage.haskell.org/package/Flint2-0.1.0.1/docs/docs/out.png)
+![examples of complex_plot](/docs/docs/out.png)
 
 # Flint2-Examples
 
@@ -120,7 +120,7 @@ convenient to set the number of cores available using the environment
 variable GHCRTS (e.g. for 10 cores)
 
 ```bash
-GHCRTS='-N10
+GHCRTS='-N10'
 export GHCRTS
 ```
 

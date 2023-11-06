@@ -10,6 +10,8 @@ extra-source-files:
 - README.md
 - CHANGELOG.md
 
+extra-doc-files:  docs/*.png
+
 # Metadata used when publishing your package
 synopsis:  Examples for the Flint2 library
 category:   Math
