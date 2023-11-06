@@ -1,4 +1,4 @@
-![examples of complex_plot](/docs/docs/out.png)
+![examples of complex_plot](/docs/out.png)
 
 # Flint2-Examples
 
