@@ -1,3 +1,5 @@
+![examples of complex_plot](https://hackage.haskell.org/package/Flint2-0.1.0.1/docs/docs/out.png)
+
 # Flint2-Examples
 
 ## Introduction
