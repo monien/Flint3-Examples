@@ -11,7 +11,8 @@ import Foreign.Marshal.Array (advancePtr)
 
 import Data.Number.Flint
 
-main = timeItNamed "time" $ run =<< execParser opts where
+main = timeItNamed "time"
+     $ run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Calculates keipers series."
   opts = info (parameters <**> helper) (
          fullDesc

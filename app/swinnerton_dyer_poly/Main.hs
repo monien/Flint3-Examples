@@ -11,7 +11,8 @@ import Foreign.Marshal.Array
 
 import Data.Number.Flint
 
-main = timeItNamed "time" $ run =<< execParser opts where
+main = timeItNamed "time"
+     $ run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Computes the coefficients of the Swinnerton-Dyer polynomial."
   opts = info (parameters <**> helper) (
          fullDesc
@@ -22,7 +23,7 @@ run params@(Parameters n) = swinnerton_dyer_poly n
   
 -- Parser Parameters -----------------------------------------------------------
 
-data Parameters = Parameters {
+newtype Parameters = Parameters {
   n :: CULong
   } deriving (Show, Eq)
 

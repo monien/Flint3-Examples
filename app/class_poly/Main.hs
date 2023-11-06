@@ -13,7 +13,8 @@ import Foreign.Ptr
 
 import Data.Number.Flint
 
-main = timeItNamed "time" $ run =<< execParser opts where
+main = timeItNamed "time"
+     $ run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Calculates class polynomial for negative discriminant."
   opts = info (parameters <**> helper) (
          fullDesc

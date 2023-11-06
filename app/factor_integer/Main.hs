@@ -13,7 +13,7 @@ import Foreign.Storable
 
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Factor integers."
   opts = info (parameters <**> helper) (
          fullDesc
@@ -57,7 +57,7 @@ data Parameters = Parameters {
 parameters :: Parser Parameters
 parameters = Parameters
   <$> argument str (
-      help "Integer given as expression."
+      help "Integer given as expression (e.g. 2^64+1)"
    <> metavar "INTEGER")
   <*> option auto (
       help "number of threads"

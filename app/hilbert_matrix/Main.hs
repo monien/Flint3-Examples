@@ -6,7 +6,7 @@ import Foreign.Marshal.Array
 
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   opts = info (parameters <**> helper) (
          fullDesc
       <> progDesc "calculates the determinant of the Hilbert matrix"

@@ -7,7 +7,7 @@ import Foreign.Ptr
 
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Compute nth coefficient of the q-expansion of the weight \
        \12 cusp form."
   opts = info (parameters <**> helper) (

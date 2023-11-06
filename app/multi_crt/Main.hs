@@ -9,7 +9,7 @@ import Foreign.Storable
 
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Reconstruct integer using the chinese remainder theorem."
   hdesc = "Fast tree version of the integer Chinese Remainder code."
   opts = info (parameters <**> helper) (

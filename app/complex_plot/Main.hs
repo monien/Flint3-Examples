@@ -20,7 +20,7 @@ main = run =<< execParser opts where
       <> header "Plotting special functions in the complex plane.")
 
 run :: Parameters -> IO ()
-run (Parameters xa xb ya yb w h colorMode f imgFile) = do
+run (Parameters xa xb ya yb w h colorMode f imgFile num_threads) = do
   when (colorMode < 0 || colorMode > 6) $ do error "colorMode not available."
   case Map.lookup f functions of 
     Just g -> do let u i j = evalSafe (xa, xb, w) (ya, yb, h) g i (h-j)
@@ -53,6 +53,7 @@ data Parameters = Parameters {
   , colorMode :: Int
   , fun :: String
   , imgFile :: Maybe String
+  , num_threads :: Int
   } deriving Show
 
 parameters :: Parser Parameters
@@ -106,3 +107,8 @@ parameters = Parameters
       short 'o' <>
       metavar "IMAGE-FILE" <>
       help "write output to IMAGE-FILE"))
+  <*> option auto (
+      help "number of threads"
+   <> long "threads"
+   <> value 1
+   <> metavar "THREADS")

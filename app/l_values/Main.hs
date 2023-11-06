@@ -26,8 +26,9 @@ run p@(Parameters character n xs ys prec zfun deflate len) = do
 lvalue character n xs ys prec zfun deflate len = do
   z <- _acb_vec_init len
   p <- forM [0..len-1] $ \j -> return $ z `advancePtr` (fromIntegral j)
-  withNewDirichletGroup character $ \g -> do
-    withNewDirichletChar g $ \chi -> do
+  g <- newDirichletGroup character
+  withNewDirichletChar g $ \chi -> do
+    withDirichletGroup g $ \g -> do
       putStr $ "character chi(" ++ show character ++ ", " ++ show n ++ ") is "
       dirichlet_char_log chi g n
       primitive <- dirichlet_char_is_primitive g chi

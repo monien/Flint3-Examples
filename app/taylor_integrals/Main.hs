@@ -8,7 +8,7 @@ import Foreign.Marshal.Array
 
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Compute integrals using d decimal digits of precision."
   opts = info (parameters <**> helper) (
          fullDesc

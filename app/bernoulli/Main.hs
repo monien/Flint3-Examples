@@ -6,7 +6,8 @@ import System.TimeIt
 
 import Data.Number.Flint
 
-main = timeItNamed "time" $ run =<< execParser opts where
+main = timeItNamed "time"
+     $ run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Calculates bernoulli numbers."
   opts = info (parameters <**> helper) (
          fullDesc

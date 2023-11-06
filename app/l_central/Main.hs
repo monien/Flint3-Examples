@@ -28,7 +28,7 @@ run p@(Parameters quiet check prec qmin qmax) = do
     let qb = fromIntegral qmax * 0.5 * fromIntegral (qmax - qmin + 1) 
     pre <- newAcbDirichletHurwitzPrecompNum s 0 qb prec
     withAcbDirichletHurwitzPrecomp pre $ \pre ->
-      forM_ [qmin..qmax] $ \q -> 
+      forM_ [qmin .. qmax] $ \q -> 
         when (q `mod` 4 /= 2) $ do
           withNewDirichletGroup q $ \g -> do
             n <- fromIntegral <$> dirichlet_group_size g 
@@ -75,18 +75,23 @@ data Parameters = Parameters {
 parameters :: Parser Parameters
 parameters = Parameters
   <$> switch (
-    long "quiet" <>
-    short 'q')
+      help "quiet"
+   <> long "quiet"
+   <> short 'q'
+   <> metavar "QUIET")
   <*> switch (
-    long "--check" <>
-    short 'c')
+   <> help "check"
+   <> long "--check" 
+   <> short 'c'
+   <> metavar "CHECK")
   <*> option auto (
-    long "prec" <>
-    short 'p' <>
-    value 100 <>
-    metavar "precision")
+      help "precision"
+   <> long "precision"
+   <> short 'p'
+   <> value 100
+   <> metavar "precision")
   <*> argument auto (
-    metavar "qmin")
+      metavar "QMIN")
   <*> argument auto (
-    metavar "qmax")
+      metavar "QMAX")
     

@@ -3,9 +3,7 @@
 ## Introduction
 
 Examples for the [Flint2](https://hackage.haskell.org/package/Flint2)
-Haskell wrapper of the [Flint](https://flintlib.org) library. All of
-these examples were originally coded in C by the flintlib
-collaboration.
+Haskell wrapper of the [Flint](https://flintlib.org) library.
 
 Most of these are directly "translated" from C to Haskell so they are
 written using "imperative" constructs in Haskell to demonstrate the
@@ -15,9 +13,9 @@ structure of the C code (with some exceptions:
 e.g. swinnerton_dyer_poly uses a different algorithm, logistic uses a
 monad transformer instead of a for loop ...)
 
-There are some basic benchmarks in some of the programs. In some 
-cases multithreading is available. Checkout the options by typing 
-prog -h. 
+There are basic benchmarks in some of the programs. In some cases
+experimental support of multithreading is available.  Checkout the
+options by typing prog -h.
 
 ## Installation
 
@@ -37,11 +35,20 @@ cabal install Flint2 --lib
 ```bash
 cabal install Flint2-Examples
 ```
+'
+## Source code
+
+To study the source code download the code from Github with. More
+documentation will hopefully available soon. Also check the flintlib site.
+
+```bash
+git clone https://github.com/monien/Flint2-Examples.git
+```
 
 ## Quick start
 
-A simple example would factorization of integers. To find out what
-options are available use -h:
+A simple example would be the factorization of integers
+(factor_integers). To find out what options are available use -h:
 
 ```bash
 factor_integers -h
@@ -104,16 +111,16 @@ Available options:
   -h,--help                Show this help tex
 ```
 
+## Multithreading 
 
-## Source code
-
-To study the source code download the code from Github with. More
-documentation will hopefully available soon. Also check the flintlib site.
+To use the experimental support of multithreading it is most
+convenient to set the number of cores available using the environment
+variable GHCRTS (e.g. for 10 cores)
 
 ```bash
-git clone https://github.com/monien/Flint2-Examples.git
+GHCRTS='-N10
+export GHCRTS
 ```
-
 
 ## List of available examples
 
@@ -135,6 +142,7 @@ Installed are
 * fmpz_poly_factor_zassenhaus
 * fpwrap
 * fq_poly
+* function_benchmark
 * hilbert_matrix
 * hilbert_matrix_ca
 * integrals
@@ -147,9 +155,11 @@ Installed are
 * padic
 * partitions
 * pi_digits
+* poly_roots
 * primegen
 * qadic
 * radix
+* real_roots
 * stirling_matrix
 * swinnerton_dyer_poly
 * taylor_integrals

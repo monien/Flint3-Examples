@@ -12,7 +12,7 @@ import Text.ParserCombinators.ReadP hiding (option)
 import Data.Char
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   opts = info (options <**> helper) (
          fullDesc
       <> progDesc "Discrete Fourier Transform for functions [0..5]."

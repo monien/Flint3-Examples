@@ -11,7 +11,7 @@ import Foreign.Marshal.Array
 
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Compute nth iterate of the logistic map x_{n+1} = r x_n (1-x_n)."
   opts = info (parameters <**> helper) (
          fullDesc

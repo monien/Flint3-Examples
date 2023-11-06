@@ -19,6 +19,8 @@ category:   Math
 # common to point users to the README.md file.
 description:  Please see the README on GitHub at <https://github.com/githubuser/Flint2-Examples#readme>
 
+ghc-options:  -dynamic -O2
+   
 dependencies:
   - base >= 4.7 && < 5
   - mtl
@@ -69,6 +71,7 @@ executables:
   factor_integer:
     source-dirs: app/factor_integer
     main: Main.hs
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N
   fmpq_poly:
     source-dirs: app/fmpq_poly
     main: Main.hs
@@ -129,12 +132,22 @@ executables:
   pi_digits:
     source-dirs: app/pi_digits
     main: Main.hs
+  poly_roots:
+    source-dirs: app/poly_roots
+    main: Main.hs
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N
   primegen:
     source-dirs: app/primegen
     main: Main.hs
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N
   qadic:
     source-dirs: app/qadic
     main: Main.hs
+  real_roots:
+    source-dirs: app/real_roots
+    main: Main.hs
+    include-dirs: app/real_roots
+    install-includes: app/real_roots/z_param.h
   stirling_matrix:
     source-dirs: app/stirling_matrix
     main: Main.hs

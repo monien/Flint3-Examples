@@ -12,7 +12,7 @@ import Foreign.Storable
 
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "Factor multivariate polynomial in three variables {x, y, z}."
   opts = info (parameters <**> helper) (
          fullDesc

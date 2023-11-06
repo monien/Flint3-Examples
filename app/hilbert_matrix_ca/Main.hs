@@ -10,7 +10,7 @@ import Text.Printf
 
 import Data.Number.Flint
 
-main = timeIt $ run =<< execParser opts where
+main = timeIt $ run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "This program constructs the Hilbert matrixq as exact \
          \algebraic numbers, and verifies the exact trace and \
          \determinant formulas."

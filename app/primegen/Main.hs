@@ -7,7 +7,7 @@ import Foreign.Ptr
 
 import Data.Number.Flint
 
-main = run =<< execParser opts where
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
   opts = info (parameters <**> helper) (
          fullDesc
       <> progDesc "Generate primes."

@@ -5,7 +5,8 @@ import Foreign.C.Types
 
 import Data.Number.Flint
 
-main = timeItNamed "binet" $ run =<< execParser opts where
+main = timeItNamed "binet"
+     $ run =<< customExecParser (prefs showHelpOnEmpty) opts where
   desc = "This program computes the n-th Fibonacci number using Binet’s formula"
   opts = info (parameters <**> helper) (
          fullDesc
@@ -13,8 +14,7 @@ main = timeItNamed "binet" $ run =<< execParser opts where
       <> header desc)
 
 run params@(Parameters n limit) = do
-  print params
-  
+
   ctx <- newCaCtx
 
   [sqrt5, phi, psi, t, u] <- replicateM 5 (newCa ctx)
@@ -38,7 +38,9 @@ run params@(Parameters n limit) = do
               ca_sub t t u ctx
               ca_div t t sqrt5 ctx
               ca_print t ctx; putStr "\n"
-              
+
+-- Parser ----------------------------------------------------------------------
+
 data Parameters = Parameters {
     n :: Fmpz
   , limit :: Maybe CLong

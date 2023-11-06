@@ -8,7 +8,8 @@ import Control.Monad
 
 import Data.Number.Flint.Arb
 
-main = timeItNamed "time" $ run =<< execParser opts where
+main = timeItNamed "time"
+     $ run =<< customExecParser (prefs showHelpOnEmpty) opts where
   opts = info (parameters <**> helper) (
          fullDesc
       <> progDesc "Calculates digits of pi."
