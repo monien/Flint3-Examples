@@ -3,25 +3,75 @@ import System.IO.Unsafe
 import Control.Monad
 import Foreign.C.Types
 import Foreign.C.String
+import Foreign.Marshal.Alloc
+import Foreign.Storable
+
+import Data.Map (Map, (!), (!?))
 
 import Data.Number.Flint
-import Data.Number.Flint.Calcium
-
-import Builtin
 
 main = do
-  fileName <- newCString "calcium.out"
-  mode <- newCString "w"
-  fp <- fopen fileName mode
-  cs <- newCalciumStreamFile fp
-  withCalciumStream cs $ \cs -> do
-    h <- hermiteH 11
-    withFexpr h $ \h -> do
-      fexpr_write cs h
-      fexpr_write_latex cs h 0
-      fexpr_expanded_normal_form h h 0
-      fexpr_write cs h
-      fexpr_write_latex cs h 0
+  let n = 12
+  x <- toFexpr "x"
+  f <- g
+  poly <- hermiteH n
+  heading $ "Hermite polynomial of degree " ++ show n
+  print poly
+  heading "expanded to normal form"
+  print =<< normalForm poly
+  heading "LaTeX representation "
+  print =<< latex poly
+  heading "another expression"
+  print f
+  heading "LaTeX representation"
+  print =<< latex f
+
+heading x = putStrLn $ "\n\ESC[1;34m" ++ x 
+        ++ "\n" ++ (take (length x) $ repeat '‾') ++ "\ESC[0m"
+  
+--------------------------------------------------------------------------------
+
+g = do
+  f <- toFexpr FEXPR_Hypergeometric2F1
+  a <- toFexpr (1//2 :: Fmpq)
+  b <- toFexpr (1//3 :: Fmpq)
+  c <- toFexpr (1//7 :: Fmpq)
+  res <- newFexpr
+  withFexpr f $ \f -> do
+    withFexpr a $ \a -> do
+      withFexpr b $ \b -> do
+        withFexpr c $ \c -> do
+          withFexpr res $ \res -> do
+            fexpr_call3 res f a b c
+  return res
+
+-- horner :: Num a => [a] -> a -> a
+horner x = foldr (\c sum -> c+x*sum) 0
+
+hermiteH n = do
+  coeffs <- mapM toFexpr $ reverse $ toList (hermitePolynomial n) 
+  x <- toFexpr "x"
+  return $ horner x coeffs
+
+normalForm x = do
+  withFexpr x $ \ x -> do
+    fexpr_expanded_normal_form x x 0
+  return x
+
+latex x = do
+  ptr <- malloc :: IO (Ptr CCalciumStream)
+  calcium_stream_init_str ptr
+  (_, result) <- withFexpr x $ \x -> do
+    fexpr_write_latex ptr x 0
+    CCalciumStream _ cs len _  <- peek ptr
+    s <- peekCString cs
+    free cs
+    return s
+  return result
+
+--------------------------------------------------------------------------------
+
+testCalcium = do
   ctx <- newCaCtx
   x <- newCa ctx
   withCa x $ \x -> do
@@ -51,11 +101,24 @@ main = do
           ca_euler x ctx
           ca_print x ctx; putStr "\n"
           withCaVec v $ \v -> ca_vec_print v ctx
+          
+testCalciumStream = do
+  h <- hermiteH 11
+  w <- g
+  fileName <- newCString "calcium.out"
+  mode <- newCString "w"
+  fp <- fopen fileName mode
+  cs <- newCalciumStreamFile fp
+  withCalciumStream cs $ \cs -> do
+    withFexpr h $ \h -> do
+      fexpr_write cs h
+      fexpr_write_latex cs h 0
+      fexpr_expanded_normal_form h h 0
+    withFexpr w $ \w -> do
+      fexpr_write cs w
+      fexpr_write_latex cs w 0
   flag <- fclose fp
   return ()
-
--- horner :: Num a => [a] -> a -> a
-horner x = foldr (\c sum -> c+x*sum) 0
 
 foreign import ccall "stdio.h fopen"
   fopen :: CString -> CString -> IO (Ptr CFile)
@@ -66,33 +129,3 @@ foreign import ccall "stdio.h fclose"
 foreign import ccall "stdio.h fputs"
   fputs :: CString -> Ptr CFile -> IO CInt
 
---------------------------------------------------------------------------------
-
-hermiteH n = do
-  let h = hermitePolynomial n
-      coeffs = map from $ reverse $ toList h :: [Fexpr]
-      x = var "x"
-  mapM_ print coeffs
-  return $ horner x coeffs
- 
-var name = unsafePerformIO $ do
-  result <- newFexpr
-  withFexpr result $ \result -> do
-    withCString name $ \name -> do
-      fexpr_set_symbol_str result name
-  return result
-  
-class Expression a where
-  from :: a -> Fexpr
-
-instance Expression Fmpz where
-  from x = unsafePerformIO $ do
-    result <- newFexpr
-    withFexpr result $ \expr -> do
-      withFmpz x $ \x -> do
-        fexpr_set_fmpz expr x
-    return result
-  
-          
-  
-  

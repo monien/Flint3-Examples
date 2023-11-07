@@ -20,6 +20,7 @@ extra-source-files:
     README.md
     CHANGELOG.md
 extra-doc-files:
+    docs/mj.png
     docs/out.png
 
 source-repository head
@@ -33,7 +34,6 @@ library
       Paths_Flint2_Examples
   hs-source-dirs:
       src
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -49,7 +49,7 @@ executable bernoulli
       Paths_Flint2_Examples
   hs-source-dirs:
       app/bernoulli
-  ghc-options: -dynamic -O2 -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -66,7 +66,6 @@ executable binet
       Paths_Flint2_Examples
   hs-source-dirs:
       app/binet
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -83,7 +82,6 @@ executable calcium
       Paths_Flint2_Examples
   hs-source-dirs:
       app/calcium
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -99,7 +97,6 @@ executable class_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/class_poly
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -118,7 +115,7 @@ executable complex_plot
       Paths_Flint2_Examples
   hs-source-dirs:
       app/complex_plot
-  ghc-options: -dynamic -O2 -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Flint2
     , JuicyPixels
@@ -137,7 +134,6 @@ executable crt
       Paths_Flint2_Examples
   hs-source-dirs:
       app/crt
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -153,7 +149,6 @@ executable delta_qexp
       Paths_Flint2_Examples
   hs-source-dirs:
       app/delta_qexp
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -169,7 +164,6 @@ executable dft
       Paths_Flint2_Examples
   hs-source-dirs:
       app/dft
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -185,7 +179,6 @@ executable elementary
       Paths_Flint2_Examples
   hs-source-dirs:
       app/elementary
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -201,7 +194,7 @@ executable factor_integer
       Paths_Flint2_Examples
   hs-source-dirs:
       app/factor_integer
-  ghc-options: -dynamic -O2 -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -217,7 +210,6 @@ executable fmpq_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fmpq_poly
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -233,7 +225,6 @@ executable fmpz_mod_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fmpz_mod_poly
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -249,7 +240,6 @@ executable fmpz_mpoly_factor
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fmpz_mpoly_factor
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -266,7 +256,6 @@ executable fmpz_poly_factor_zassenhaus
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fmpz_poly_factor_zassenhaus
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -282,7 +271,6 @@ executable fpwrap
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fpwrap
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -298,7 +286,6 @@ executable fq_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fq_poly
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -314,7 +301,7 @@ executable function_benchmark
       Paths_Flint2_Examples
   hs-source-dirs:
       app/function_benchmark
-  ghc-options: -dynamic -O2 -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -330,7 +317,6 @@ executable hilbert_matrix
       Paths_Flint2_Examples
   hs-source-dirs:
       app/hilbert_matrix
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -346,7 +332,6 @@ executable hilbert_matrix_ca
       Paths_Flint2_Examples
   hs-source-dirs:
       app/hilbert_matrix_ca
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -363,7 +348,7 @@ executable integrals
       Paths_Flint2_Examples
   hs-source-dirs:
       app/integrals
-  ghc-options: -dynamic -O2 -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -379,7 +364,6 @@ executable keiper_li
       Paths_Flint2_Examples
   hs-source-dirs:
       app/keiper_li
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -395,7 +379,6 @@ executable l_central
       Paths_Flint2_Examples
   hs-source-dirs:
       app/l_values
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -411,7 +394,6 @@ executable l_values
       Paths_Flint2_Examples
   hs-source-dirs:
       app/l_values
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -427,7 +409,6 @@ executable logistic
       Paths_Flint2_Examples
   hs-source-dirs:
       app/logistic
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -443,7 +424,6 @@ executable machin
       Paths_Flint2_Examples
   hs-source-dirs:
       app/machin
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -459,7 +439,6 @@ executable multi_crt
       Paths_Flint2_Examples
   hs-source-dirs:
       app/multi_crt
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -475,7 +454,6 @@ executable padic
       Paths_Flint2_Examples
   hs-source-dirs:
       app/padic
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -491,7 +469,6 @@ executable partitions
       Paths_Flint2_Examples
   hs-source-dirs:
       app/partitions
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -507,7 +484,6 @@ executable pi_digits
       Paths_Flint2_Examples
   hs-source-dirs:
       app/pi_digits
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -523,7 +499,7 @@ executable poly_roots
       Paths_Flint2_Examples
   hs-source-dirs:
       app/poly_roots
-  ghc-options: -dynamic -O2 -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -539,7 +515,7 @@ executable primegen
       Paths_Flint2_Examples
   hs-source-dirs:
       app/primegen
-  ghc-options: -dynamic -O2 -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -555,7 +531,6 @@ executable qadic
       Paths_Flint2_Examples
   hs-source-dirs:
       app/qadic
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -571,7 +546,6 @@ executable radix
       Paths_Flint2_Examples
   hs-source-dirs:
       app/radix
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -590,7 +564,6 @@ executable real_roots
       Paths_Flint2_Examples
   hs-source-dirs:
       app/real_roots
-  ghc-options: -dynamic -O2
   include-dirs:
       app/real_roots
   install-includes:
@@ -610,7 +583,6 @@ executable stirling_matrix
       Paths_Flint2_Examples
   hs-source-dirs:
       app/stirling_matrix
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -626,7 +598,6 @@ executable swinnerton_dyer_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/swinnerton_dyer_poly
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -642,7 +613,6 @@ executable taylor_integrals
       Paths_Flint2_Examples
   hs-source-dirs:
       app/taylor_integrals
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -658,7 +628,6 @@ executable zeta_zeros
       Paths_Flint2_Examples
   hs-source-dirs:
       app/zeta_zeros
-  ghc-options: -dynamic -O2
   build-depends:
       Flint2
     , base >=4.7 && <5
@@ -675,7 +644,7 @@ test-suite Flint2-Examples-test
       Paths_Flint2_Examples
   hs-source-dirs:
       test
-  ghc-options: -dynamic -O2 -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       Flint2
     , Flint2-Examples
