@@ -1,4 +1,0 @@
-Algebra.NormedSpace.Maximum normFoldable :: (C a v, Foldable f) => f v -> a
-Algebra.NormedSpace.Sum normFoldable :: (C a v, Foldable f) => f v -> a
-Algebra.NormedSpace.Maximum normFoldable1 :: (C a v, Foldable f, Functor f) => f v -> a
-Algebra.NormedSpace.Sum normFoldable1 :: (C a v, Foldable f, Functor f) => f v -> a

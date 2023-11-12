@@ -78,7 +78,6 @@ executable binet
 executable calcium
   main-is: Main.hs
   other-modules:
-      Builtin
       Paths_Flint2_Examples
   hs-source-dirs:
       app/calcium
