@@ -19,7 +19,7 @@ main = do
   heading $ "Hermite polynomial of degree " ++ show n
   print expr
   heading "expanded to normal form"
-  print =<< normalForm expr
+  print =<< expand expr
   heading "LaTeX representation"
   print =<< latex expr
   heading "another expression"
@@ -100,7 +100,7 @@ monienH n = unsafePerformIO $ do
 
 -- manipulating expressions ----------------------------------------------------
 
-normalForm x = do
+expand x = do
   withFexpr x $ \ x -> do
     fexpr_expanded_normal_form x x 0
   return x
