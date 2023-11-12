@@ -120,6 +120,7 @@ executable complex_plot
     , JuicyPixels
     , base >=4.7 && <5
     , containers
+    , filepath
     , gloss
     , gloss-juicy
     , mtl

@@ -1,3 +1,5 @@
+import System.FilePath
+
 import Data.List (intercalate)
 import qualified Data.Map as Map
 
@@ -27,7 +29,7 @@ run (Parameters xa xb ya yb w h colorMode f imgFile num_threads) = do
                      v i j = rgba colorMode (u i j)
                      img = ImageRGBA8 (generateImage v w h)
                  case imgFile of
-                   Just out -> savePngImage out img
+                   Just out -> saveImage out img
                    _ -> return ()
                  case fromDynamicImage img of
                    Just picture -> display (InWindow "arb plot" (w, h) (0, 0))
@@ -39,7 +41,25 @@ rgba colorMode z = PixelRGBA8 r' g' b' alpha where
   (r, g, b) = colorFunction colorMode z
   alpha = if (r, g, b) /= (0.5, 0.5, 0.5) then 255 else 0
   [r', g', b'] = map (min 255 . floor . (*255)) [r, g, b]
-  
+
+saveImage out img = do
+  if hasExtension out then do
+    let f = case takeExtension out of
+              ".bmp"  -> Just saveBmpImage
+              ".png"  -> Just savePngImage
+              ".jpg"  -> Just (saveJpgImage 100)
+              ".tiff" -> Just saveTiffImage
+              ".hdr"  -> Just saveRadianceImage
+              _       -> Nothing
+    case f of
+      Just f -> do f out img
+                   return ()
+      _ -> putStrLn "Could not save image: unknown file extension.\n\
+                    \Use bmp, jpg, png, tiff or hdr as file extension." 
+  else
+    putStrLn "Could not save image: no file extension.\n\
+             \Use bmp, jpg, png, tiff or hdr as file extension." 
+    
 data Range = Range Double Double Double Double deriving Show
 data Size = Size Int Int deriving Show
 
