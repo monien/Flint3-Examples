@@ -41,9 +41,6 @@ executables:
   binet:
     source-dirs: app/binet
     main: Main.hs
-  calcium:
-    source-dirs: app/calcium
-    main: Main.hs
   class_poly:
     source-dirs: app/class_poly
     main: Main.hs
@@ -68,6 +65,9 @@ executables:
     main: Main.hs
   elementary:
     source-dirs: app/elementary
+    main: Main.hs
+  expression:
+    source-dirs: app/expression
     main: Main.hs
   factor_integer:
     source-dirs: app/factor_integer
