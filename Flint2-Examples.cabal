@@ -5,12 +5,12 @@ cabal-version: 1.18
 -- see: https://github.com/sol/hpack
 
 name:           Flint2-Examples
-version:        0.1.0.0
+version:        0.1.0.1
 synopsis:       Examples for the Flint2 library
 description:    Examples for Flint2 Haskell bindings for the flint library for number theory.
 category:       Math
-homepage:       https://github.com/githubuser/Flint2-Examples#readme
-bug-reports:    https://github.com/githubuser/Flint2-Examples/issues
+homepage:       https://github.com/monien/Flint2-Examples#readme
+bug-reports:    https://github.com/monien/Flint2-Examples/issues
 author:         monien
 maintainer:     hmonien@uni-bonn.de
 copyright:      2023 Hartmut Monien
@@ -26,7 +26,7 @@ extra-doc-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/Flint2-Examples
+  location: https://github.com/monien/Flint2-Examples
 
 library
   exposed-modules:

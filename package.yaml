@@ -1,6 +1,6 @@
 name:                Flint2-Examples
-version:             0.1.0.0
-github:              "https://github.com/monien/Flint2-Examples.git"
+version:             0.1.0.1
+github:              "monien/Flint2-Examples"
 license:             GPL-2
 author:              "monien"
 maintainer:        "hmonien@uni-bonn.de"
