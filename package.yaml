@@ -1,7 +1,7 @@
 name:                Flint2-Examples
 version:             0.1.0.0
-github:              "githubuser/Flint2-Examples"
-license:             BSD3
+github:              "https://github.com/monien/Flint2-Examples.git"
+license:             GPL-2
 author:              "monien"
 maintainer:        "hmonien@uni-bonn.de"
 copyright:          "2023 Hartmut Monien"
@@ -19,24 +19,29 @@ category:   Math
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:  Please see the README on GitHub at <https://github.com/githubuser/Flint2-Examples#readme>
-
+description: Examples for Flint2 Haskell bindings for the flint library for number theory.
+  
 dependencies:
-  - base >= 4.7 && < 5
-  - mtl
-  - containers
-  - optparse-applicative
-  - timeit
-  - Flint2
+  - base                          >= 4.7 && < 5
+  - mtl                            >= 2.2.2 && < 2.3
+  - containers                 >= 0.6.7 && < 0.7
+  - optparse-applicative >= 0.18.1 && < 0.19
+  - timeit                        >= 2.0 && < 2.1
+  - Flint2                        >= 0.1.0.4 && < 0.2.0.0
 
 library:
   source-dirs: src
 
+include-dirs:
+  - app/real_roots
+install-includes:
+  - app/real_roots/z_param.h
+      
 executables:
   bernoulli:
     source-dirs: app/bernoulli
     main: Main.hs
-    dependencies: time
+    dependencies: time >= 1.12.2 && < 1.13
     ghc-options: -threaded -rtsopts -with-rtsopts=-N
   binet:
     source-dirs: app/binet
@@ -44,15 +49,15 @@ executables:
   class_poly:
     source-dirs: app/class_poly
     main: Main.hs
-    dependencies: time
+    dependencies: time >= 1.12.2 && < 1.13
   complex_plot:
     source-dirs: app/complex_plot 
     main: Main.hs
     dependencies:
-      - JuicyPixels
-      - gloss
-      - gloss-juicy
-      - filepath
+      - JuicyPixels  >= 3.3.8 && < 3.4
+      - gloss          >= 1.13.2 && < 1.14
+      - gloss-juicy >= 0.2.3 && < 0.3
+      - filepath       >= 1.4.2 && < 1.5
     ghc-options: -threaded -rtsopts -with-rtsopts=-N
   crt:
     source-dirs: app/crt
@@ -82,7 +87,7 @@ executables:
   fmpz_mpoly_factor:
     source-dirs: app/fmpz_mpoly_factor
     main: Main.hs
-    dependencies: time
+    dependencies: time >= 1.12.2 && < 1.13
   fmpz_poly_factor_zassenhaus:
     source-dirs: app/fmpz_poly_factor_zassenhaus
     main: Main.hs
@@ -144,16 +149,14 @@ executables:
   qadic:
     source-dirs: app/qadic
     main: Main.hs
+  radix:
+    source-dirs: app/radix
+    main: Main.hs
   real_roots:
     source-dirs: app/real_roots
     main: Main.hs
-    include-dirs: app/real_roots
-    install-includes: app/real_roots/z_param.h
   stirling_matrix:
     source-dirs: app/stirling_matrix
-    main: Main.hs
-  radix:
-    source-dirs: app/radix
     main: Main.hs
   swinnerton_dyer_poly:
     source-dirs: app/swinnerton_dyer_poly

@@ -1,4 +1,5 @@
-![examples of complex_plot](/docs/out.png)
+![examples of
+complex_plot](https://github.com/monien/Flint2-Examples/raw/main/docs/out.png)
 
 # Flint2-Examples
 
@@ -92,7 +93,7 @@ This will plot  the phase of the *Klein invariant* in the upper half
 plane. 
 
 <p align="center">
-  <img src="/docs/mj.png" />
+  <img src="https://github.com/monien/Flint2-Examples/raw/main/docs/mj.png" />
 </p>
 
 The app complex_plot has many more options. Using the help option one obtains
