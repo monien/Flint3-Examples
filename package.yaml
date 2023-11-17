@@ -28,14 +28,6 @@ dependencies:
   - optparse-applicative >= 0.18.1 && < 0.19
   - timeit                        >= 2.0 && < 2.1
   - Flint2                        >= 0.1.0.4 && < 0.2.0.0
-
-library:
-  source-dirs: src
-
-include-dirs:
-  - app/real_roots
-install-includes:
-  - app/real_roots/z_param.h
       
 executables:
   bernoulli:
@@ -155,6 +147,10 @@ executables:
   real_roots:
     source-dirs: app/real_roots
     main: Main.hs
+    include-dirs:
+      - app/real_roots
+    install-includes:
+      - app/real_roots/z_param.h
   stirling_matrix:
     source-dirs: app/stirling_matrix
     main: Main.hs

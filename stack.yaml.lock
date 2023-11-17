@@ -15,6 +15,13 @@ packages:
   original:
     commit: acbdfd864b7e574dfbe1595fbdcd154563b2a0ef
     git: https://github.com/hpacheco/gloss-juicy.git
+- completed:
+    hackage: Flint2-0.1.0.4@sha256:0f37aadd06f0aa59ef9da67689824be39f6118d62fbe65c5f3b8405cfdbcdc08,16679
+    pantry-tree:
+      sha256: 64f8b39ec44605848a72637fe7a4acc0a271927aca34512b468b7947996a8e42
+      size: 30883
+  original:
+    hackage: Flint2-0.1.0.4
 snapshots:
 - completed:
     sha256: 1d5fb7e344e76dd2c8958e3061d4e4dabb50a1355e6ff02e7d0e4f754c0adf47
