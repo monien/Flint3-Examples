@@ -27,7 +27,7 @@ options by typing prog -h.
 - Install the Haskell interface with
 
 ```bash
-cabal install Flint2 --lib
+cabal install Flint3 --lib
 ```
 
 - Check that your Cabal default local bin directory does not contain any
