@@ -1,6 +1,6 @@
 cabal-version: 1.18
 
--- This file has been generated from package.yaml by hpack version 0.35.2.
+-- This file has been generated from package.yaml by hpack version 0.36.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -35,16 +35,12 @@ executable bernoulli
   hs-source-dirs:
       app/bernoulli
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , time >=1.12.2 && <1.13
     , timeit ==2.0.*
   default-language: Haskell2010
@@ -55,16 +51,12 @@ executable binet
       Paths_Flint2_Examples
   hs-source-dirs:
       app/binet
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -74,16 +66,12 @@ executable class_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/class_poly
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , time >=1.12.2 && <1.13
     , timeit ==2.0.*
   default-language: Haskell2010
@@ -97,12 +85,8 @@ executable complex_plot
   hs-source-dirs:
       app/complex_plot
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , JuicyPixels >=3.3.8 && <3.4
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
@@ -110,7 +94,7 @@ executable complex_plot
     , gloss >=1.13.2 && <1.14
     , gloss-juicy >=0.2.3 && <0.3
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -120,16 +104,12 @@ executable crt
       Paths_Flint2_Examples
   hs-source-dirs:
       app/crt
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -139,16 +119,12 @@ executable delta_qexp
       Paths_Flint2_Examples
   hs-source-dirs:
       app/delta_qexp
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -158,16 +134,12 @@ executable dft
       Paths_Flint2_Examples
   hs-source-dirs:
       app/dft
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -177,16 +149,12 @@ executable elementary
       Paths_Flint2_Examples
   hs-source-dirs:
       app/elementary
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -196,16 +164,12 @@ executable expression
       Paths_Flint2_Examples
   hs-source-dirs:
       app/expression
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -216,16 +180,12 @@ executable factor_integer
   hs-source-dirs:
       app/factor_integer
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -235,16 +195,12 @@ executable fmpq_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fmpq_poly
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -254,16 +210,12 @@ executable fmpz_mod_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fmpz_mod_poly
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -273,16 +225,12 @@ executable fmpz_mpoly_factor
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fmpz_mpoly_factor
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , time >=1.12.2 && <1.13
     , timeit ==2.0.*
   default-language: Haskell2010
@@ -293,16 +241,12 @@ executable fmpz_poly_factor_zassenhaus
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fmpz_poly_factor_zassenhaus
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -312,16 +256,12 @@ executable fpwrap
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fpwrap
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -331,16 +271,12 @@ executable fq_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/fq_poly
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -351,16 +287,12 @@ executable function_benchmark
   hs-source-dirs:
       app/function_benchmark
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -370,16 +302,12 @@ executable hilbert_matrix
       Paths_Flint2_Examples
   hs-source-dirs:
       app/hilbert_matrix
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -389,16 +317,12 @@ executable hilbert_matrix_ca
       Paths_Flint2_Examples
   hs-source-dirs:
       app/hilbert_matrix_ca
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -410,16 +334,12 @@ executable integrals
   hs-source-dirs:
       app/integrals
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -429,16 +349,12 @@ executable keiper_li
       Paths_Flint2_Examples
   hs-source-dirs:
       app/keiper_li
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -448,16 +364,12 @@ executable l_central
       Paths_Flint2_Examples
   hs-source-dirs:
       app/l_values
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -467,16 +379,12 @@ executable l_values
       Paths_Flint2_Examples
   hs-source-dirs:
       app/l_values
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -486,16 +394,12 @@ executable logistic
       Paths_Flint2_Examples
   hs-source-dirs:
       app/logistic
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -505,16 +409,12 @@ executable machin
       Paths_Flint2_Examples
   hs-source-dirs:
       app/machin
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -524,16 +424,12 @@ executable multi_crt
       Paths_Flint2_Examples
   hs-source-dirs:
       app/multi_crt
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -543,16 +439,12 @@ executable padic
       Paths_Flint2_Examples
   hs-source-dirs:
       app/padic
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -562,16 +454,12 @@ executable partitions
       Paths_Flint2_Examples
   hs-source-dirs:
       app/partitions
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -581,16 +469,12 @@ executable pi_digits
       Paths_Flint2_Examples
   hs-source-dirs:
       app/pi_digits
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -601,16 +485,12 @@ executable poly_roots
   hs-source-dirs:
       app/poly_roots
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -621,16 +501,12 @@ executable primegen
   hs-source-dirs:
       app/primegen
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -640,16 +516,12 @@ executable qadic
       Paths_Flint2_Examples
   hs-source-dirs:
       app/qadic
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -659,16 +531,12 @@ executable radix
       Paths_Flint2_Examples
   hs-source-dirs:
       app/radix
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -686,11 +554,11 @@ executable real_roots
   install-includes:
       app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -700,16 +568,12 @@ executable stirling_matrix
       Paths_Flint2_Examples
   hs-source-dirs:
       app/stirling_matrix
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -719,16 +583,12 @@ executable swinnerton_dyer_poly
       Paths_Flint2_Examples
   hs-source-dirs:
       app/swinnerton_dyer_poly
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -738,16 +598,12 @@ executable taylor_integrals
       Paths_Flint2_Examples
   hs-source-dirs:
       app/taylor_integrals
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -757,16 +613,12 @@ executable zeta_zeros
       Paths_Flint2_Examples
   hs-source-dirs:
       app/zeta_zeros
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
+      Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
 
@@ -778,16 +630,12 @@ test-suite Flint2-Examples-test
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  include-dirs:
-      app/real_roots
-  install-includes:
-      app/real_roots/z_param.h
   build-depends:
-      Flint2 >=0.1.0.4 && <0.2.0.0
-    , Flint2-Examples
+      Flint2-Examples
+    , Flint3
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
-    , optparse-applicative >=0.18.1 && <0.19
+    , optparse-applicative
     , timeit ==2.0.*
   default-language: Haskell2010
