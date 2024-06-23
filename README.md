@@ -1,6 +1,6 @@
 ![examples of complex_plot](https://github.com/monien/Flint2-Examples/raw/main/docs/out.png)
 
-# Flint2-Examples
+# Flint3-Examples
 
 ## Introduction
 
