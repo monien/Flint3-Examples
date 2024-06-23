@@ -1,6 +1,6 @@
-name:                Flint2-Examples
+name:                Flint3-Examples
 version:             0.1.0.1
-github:              "monien/Flint2-Examples"
+github:              "monien/Flint3-Examples"
 license:             GPL-2
 author:              "monien"
 maintainer:        "hmonien@uni-bonn.de"
@@ -13,13 +13,13 @@ extra-source-files:
 extra-doc-files:  docs/*.png
 
 # Metadata used when publishing your package
-synopsis:  Examples for the Flint2 library
+synopsis:  Examples for the Flint3 library
 category:   Math
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description: Examples for Flint2 Haskell bindings for the flint library for number theory.
+description: Examples for Flint3 Haskell bindings for the flint library for number theory.
   
 dependencies:
   - base                          >= 4.7 && < 5
@@ -165,7 +165,7 @@ executables:
     main: Main.hs
     
 tests:
-  Flint2-Examples-test:
+  Flint3-Examples-test:
     main: Spec.hs
     source-dirs: test
     ghc-options:
@@ -173,4 +173,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - Flint2-Examples
+    - Flint3-Examples

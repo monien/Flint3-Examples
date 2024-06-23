@@ -4,13 +4,13 @@ cabal-version: 1.18
 --
 -- see: https://github.com/sol/hpack
 
-name:           Flint2-Examples
+name:           Flint3-Examples
 version:        0.1.0.1
-synopsis:       Examples for the Flint2 library
-description:    Examples for Flint2 Haskell bindings for the flint library for number theory.
+synopsis:       Examples for the Flint3 library
+description:    Examples for Flint3 Haskell bindings for the flint library for number theory.
 category:       Math
-homepage:       https://github.com/monien/Flint2-Examples#readme
-bug-reports:    https://github.com/monien/Flint2-Examples/issues
+homepage:       https://github.com/monien/Flint3-Examples#readme
+bug-reports:    https://github.com/monien/Flint3-Examples/issues
 author:         monien
 maintainer:     hmonien@uni-bonn.de
 copyright:      2023 Hartmut Monien
@@ -26,12 +26,12 @@ extra-doc-files:
 
 source-repository head
   type: git
-  location: https://github.com/monien/Flint2-Examples
+  location: https://github.com/monien/Flint3-Examples
 
 executable bernoulli
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/bernoulli
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -48,7 +48,7 @@ executable bernoulli
 executable binet
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/binet
   build-depends:
@@ -63,7 +63,7 @@ executable binet
 executable class_poly
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/class_poly
   build-depends:
@@ -81,7 +81,7 @@ executable complex_plot
   other-modules:
       ColorFunction
       Functions
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/complex_plot
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -101,7 +101,7 @@ executable complex_plot
 executable crt
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/crt
   build-depends:
@@ -116,7 +116,7 @@ executable crt
 executable delta_qexp
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/delta_qexp
   build-depends:
@@ -131,7 +131,7 @@ executable delta_qexp
 executable dft
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/dft
   build-depends:
@@ -146,7 +146,7 @@ executable dft
 executable elementary
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/elementary
   build-depends:
@@ -161,7 +161,7 @@ executable elementary
 executable expression
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/expression
   build-depends:
@@ -176,7 +176,7 @@ executable expression
 executable factor_integer
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/factor_integer
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -192,7 +192,7 @@ executable factor_integer
 executable fmpq_poly
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/fmpq_poly
   build-depends:
@@ -207,7 +207,7 @@ executable fmpq_poly
 executable fmpz_mod_poly
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/fmpz_mod_poly
   build-depends:
@@ -222,7 +222,7 @@ executable fmpz_mod_poly
 executable fmpz_mpoly_factor
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/fmpz_mpoly_factor
   build-depends:
@@ -238,7 +238,7 @@ executable fmpz_mpoly_factor
 executable fmpz_poly_factor_zassenhaus
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/fmpz_poly_factor_zassenhaus
   build-depends:
@@ -253,7 +253,7 @@ executable fmpz_poly_factor_zassenhaus
 executable fpwrap
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/fpwrap
   build-depends:
@@ -268,7 +268,7 @@ executable fpwrap
 executable fq_poly
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/fq_poly
   build-depends:
@@ -283,7 +283,7 @@ executable fq_poly
 executable function_benchmark
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/function_benchmark
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -299,7 +299,7 @@ executable function_benchmark
 executable hilbert_matrix
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/hilbert_matrix
   build-depends:
@@ -314,7 +314,7 @@ executable hilbert_matrix
 executable hilbert_matrix_ca
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/hilbert_matrix_ca
   build-depends:
@@ -330,7 +330,7 @@ executable integrals
   main-is: Main.hs
   other-modules:
       Integrands
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/integrals
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -346,7 +346,7 @@ executable integrals
 executable keiper_li
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/keiper_li
   build-depends:
@@ -361,7 +361,7 @@ executable keiper_li
 executable l_central
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/l_values
   build-depends:
@@ -376,7 +376,7 @@ executable l_central
 executable l_values
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/l_values
   build-depends:
@@ -391,7 +391,7 @@ executable l_values
 executable logistic
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/logistic
   build-depends:
@@ -406,7 +406,7 @@ executable logistic
 executable machin
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/machin
   build-depends:
@@ -421,7 +421,7 @@ executable machin
 executable multi_crt
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/multi_crt
   build-depends:
@@ -436,7 +436,7 @@ executable multi_crt
 executable padic
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/padic
   build-depends:
@@ -451,7 +451,7 @@ executable padic
 executable partitions
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/partitions
   build-depends:
@@ -466,7 +466,7 @@ executable partitions
 executable pi_digits
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/pi_digits
   build-depends:
@@ -481,7 +481,7 @@ executable pi_digits
 executable poly_roots
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/poly_roots
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -497,7 +497,7 @@ executable poly_roots
 executable primegen
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/primegen
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -513,7 +513,7 @@ executable primegen
 executable qadic
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/qadic
   build-depends:
@@ -528,7 +528,7 @@ executable qadic
 executable radix
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/radix
   build-depends:
@@ -546,7 +546,7 @@ executable real_roots
       FFI
       Functions
       Run
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/real_roots
   include-dirs:
@@ -565,7 +565,7 @@ executable real_roots
 executable stirling_matrix
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/stirling_matrix
   build-depends:
@@ -580,7 +580,7 @@ executable stirling_matrix
 executable swinnerton_dyer_poly
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/swinnerton_dyer_poly
   build-depends:
@@ -595,7 +595,7 @@ executable swinnerton_dyer_poly
 executable taylor_integrals
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/taylor_integrals
   build-depends:
@@ -610,7 +610,7 @@ executable taylor_integrals
 executable zeta_zeros
   main-is: Main.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       app/zeta_zeros
   build-depends:
@@ -622,17 +622,17 @@ executable zeta_zeros
     , timeit ==2.0.*
   default-language: Haskell2010
 
-test-suite Flint2-Examples-test
+test-suite Flint3-Examples-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_Flint2_Examples
+      Paths_Flint3_Examples
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      Flint2-Examples
-    , Flint3
+      Flint3
+    , Flint3-Examples
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , mtl >=2.2.2 && <2.3
