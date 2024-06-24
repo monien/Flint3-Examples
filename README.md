@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Examples for the [Flint2](https://hackage.haskell.org/package/Flint2)
+Examples for the [Flint3](https://hackage.haskell.org/package/Flint3)
 Haskell wrapper of the [Flint](https://flintlib.org) library.
 
 Most of these are directly "translated" from C to Haskell so they are
