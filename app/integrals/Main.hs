@@ -56,7 +56,7 @@ calc params@(Parameters list (Range (start, end)) prec opt_goal tol twice
   let use_heap = if heap then 1 else 0
       goal = if opt_goal == 0 then prec else opt_goal
   opts <- newAcbCalcIntegrateOpt_ deg eval depth use_heap verbose
-  print opts
+  -- print opts
   withAcbCalcIntegrateOpt opts $ \opts -> do
     withMag tol $ \tol -> do
       flag <- mag_is_zero tol
