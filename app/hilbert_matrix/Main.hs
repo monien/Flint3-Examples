@@ -13,7 +13,6 @@ main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
       <> header "Hilbert matrix determinant")
 
 run p@(Parameters eig n) = do
- print p
  hilbertMatrix eig (fromIntegral n) 20
  
 data Parameters = Parameters {
