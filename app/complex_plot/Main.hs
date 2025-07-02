@@ -23,19 +23,21 @@ main = run =<< execParser opts where
 
 run :: Parameters -> IO ()
 run (Parameters xa xb ya yb w h colorMode f imgFile num_threads) = do
-  when (colorMode < 0 || colorMode > 6) $ do error "colorMode not available."
-  case Map.lookup f functions of 
-    Just g -> do let u i j = evalSafe (xa, xb, w) (ya, yb, h) g i (h-j)
-                     v i j = rgba colorMode (u i j)
-                     img = ImageRGBA8 (generateImage v w h)
-                 case imgFile of
-                   Just out -> saveImage out img
-                   _ -> return ()
-                 case fromDynamicImage img of
-                   Just picture -> display (InWindow "arb plot" (w, h) (0, 0))
-                                           white picture
-                   _ -> putStrLn "could not display picture."
-    _ -> putStrLn $ "function '" ++ f ++ "' not available."
+  if (colorMode >= 0 && colorMode < 7) then do
+    case Map.lookup f functions of 
+      Just g -> do let u i j = evalSafe (xa, xb, w) (ya, yb, h) g i (h-j)
+                       v i j = rgba colorMode (u i j)
+                       img = ImageRGBA8 (generateImage v w h)
+                   case imgFile of
+                     Just out -> saveImage out img
+                     _ -> return ()
+                   case fromDynamicImage img of
+                     Just picture -> display (InWindow "arb plot" (w, h) (0, 0))
+                                             white picture
+                     _ -> putStrLn "could not display picture."
+      _ -> putStrLn $ "function '" ++ f ++ "' not available."
+  else
+    putStrLn "colormode not available."
 
 rgba colorMode z = PixelRGBA8 r' g' b' alpha where
   (r, g, b) = colorFunction colorMode z
