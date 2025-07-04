@@ -1,0 +1,6 @@
+:set -XUnicodeSyntax 
+:m + Data.Number.Flint
+
+default (Fmpz, RF 1024)
+
+x = fromList [0, 1] ∷ FmpqPoly
