@@ -1,6 +1,6 @@
 cabal-version: 1.18
 
--- This file has been generated from package.yaml by hpack version 0.36.0.
+-- This file has been generated from package.yaml by hpack version 0.37.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -91,8 +91,6 @@ executable complex_plot
     , base >=4.7 && <5
     , containers >=0.6.7 && <0.7
     , filepath >=1.4.2 && <1.5
-    , gloss >=1.13.2 && <1.14
-    , gloss-juicy >=0.2.3 && <0.3
     , mtl >=2.2.2 && <2.3
     , optparse-applicative
     , timeit ==2.0.*

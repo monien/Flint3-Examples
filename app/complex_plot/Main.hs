@@ -8,33 +8,36 @@ import Control.Monad
 import Options.Applicative
 
 import Codec.Picture
-import Graphics.Gloss 
-import Graphics.Gloss.Juicy
 
 import ColorFunction
 import Functions
 
-main :: IO ()
-main = run =<< execParser opts where
-  opts = info (parameters <**> helper) 
-       ( fullDesc
-      <> progDesc "\nplotting special functions.\n"
-      <> header "Plotting special functions in the complex plane.")
+-- main :: IO ()
+-- main = run =<< execParser opts where
+--   opts = info (parameters <**> helper) 
+--        ( fullDesc
+--       <> progDesc "\nplotting special functions.\n"
+--       <> header "Plotting special functions in the complex plane.")
 
+main :: IO ()
+main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
+  desc = "\nplotting special functions in the complex plane."
+  opts =  info (parameters <**> helper) (
+          fullDesc
+       <> progDesc desc
+       <> header desc)
+          
 run :: Parameters -> IO ()
 run (Parameters xa xb ya yb w h colorMode f imgFile num_threads) = do
   if (colorMode >= 0 && colorMode < 7) then do
     case Map.lookup f functions of 
-      Just g -> do let u i j = evalSafe (xa, xb, w) (ya, yb, h) g i (h-j)
-                       v i j = rgba colorMode (u i j)
-                       img = ImageRGBA8 (generateImage v w h)
-                   case imgFile of
-                     Just out -> saveImage out img
-                     _ -> return ()
-                   case fromDynamicImage img of
-                     Just picture -> display (InWindow "arb plot" (w, h) (0, 0))
-                                             white picture
-                     _ -> putStrLn "could not display picture."
+      Just g -> do
+        let u i j = evalSafe (xa, xb, w) (ya, yb, h) g i (h-j)
+            v i j = rgba colorMode (u i j)
+            img = ImageRGBA8 (generateImage v w h)
+        case imgFile of
+          Just out -> saveImage out img
+          _ -> return ()
       _ -> putStrLn $ "function '" ++ f ++ "' not available."
   else
     putStrLn "colormode not available."
