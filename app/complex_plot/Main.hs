@@ -12,20 +12,14 @@ import Codec.Picture
 import ColorFunction
 import Functions
 
--- main :: IO ()
--- main = run =<< execParser opts where
---   opts = info (parameters <**> helper) 
---        ( fullDesc
---       <> progDesc "\nplotting special functions.\n"
---       <> header "Plotting special functions in the complex plane.")
-
 main :: IO ()
 main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
-  desc = "\nplotting special functions in the complex plane."
+  hdr = "plotting special functions in the complex plane."
+  dsc = "example: complex_plot -f modj -o modj.png"
   opts =  info (parameters <**> helper) (
           fullDesc
-       <> progDesc desc
-       <> header desc)
+       <> progDesc dsc
+       <> header hdr)
           
 run :: Parameters -> IO ()
 run (Parameters xa xb ya yb w h colorMode f imgFile num_threads) = do
@@ -35,9 +29,7 @@ run (Parameters xa xb ya yb w h colorMode f imgFile num_threads) = do
         let u i j = evalSafe (xa, xb, w) (ya, yb, h) g i (h-j)
             v i j = rgba colorMode (u i j)
             img = ImageRGBA8 (generateImage v w h)
-        case imgFile of
-          Just out -> saveImage out img
-          _ -> return ()
+        saveImage imgFile img
       _ -> putStrLn $ "function '" ++ f ++ "' not available."
   else
     putStrLn "colormode not available."
@@ -77,7 +69,7 @@ data Parameters = Parameters {
   , height :: Int
   , colorMode :: Int
   , fun :: String
-  , imgFile :: Maybe String
+  , imgFile :: String
   , num_threads :: Int
   } deriving Show
 
@@ -124,14 +116,13 @@ parameters = Parameters
   <*> strOption (
       short 'f' <>
       long "function" <>
-      value "modj" <> 
       help ("possible values: " ++ intercalate ", " (Map.keys functions)) <>
       metavar "FUNCTION")
-  <*> optional (strOption (
+  <*> strOption (
       long "output" <>
       short 'o' <>
       metavar "IMAGE-FILE" <>
-      help "write output to IMAGE-FILE"))
+      help "write output to IMAGE-FILE")
   <*> option auto (
       help "number of threads"
    <> long "threads"
