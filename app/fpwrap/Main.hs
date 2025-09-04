@@ -23,14 +23,14 @@ main = do
 
 -- implement instances for zeta for Double and Complex Double ------------------
 
-instance Special Double where
+instance ArbSpecialFunctions Double where
   zeta x = unsafePerformIO $ do
     alloca $ \f -> do
       flag <- arb_fpwrap_double_zeta f (realToFrac x) 0
       result <- peek f
       return $ realToFrac $ result
 
-instance Special (Complex Double) where
+instance ArbSpecialFunctions (Complex Double) where
   zeta z = unsafePerformIO $ do
     alloca $ \f -> do
       alloca $ \zp -> do
