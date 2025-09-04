@@ -11,6 +11,8 @@ import Foreign.Ptr
 import Foreign.Marshal.Array
 import Foreign.Storable 
 
+import Data.List (intercalate)
+
 import Data.Number.Flint
 
 main = run =<< customExecParser (prefs showHelpOnEmpty) opts where
@@ -25,11 +27,19 @@ run params@(Parameters expression num_threads timing) = do
   case parseExpression expression of
     Just n ->
       if timing then do
-        timeItNamed "time for factorization" $ print $ factor n
+        timeItNamed "time for factorization" $ printFactorization n
       else do
-        print $ factor n
+        printFactorization n
     _ -> putStrLn "Could not parse expression."
 
+printFactorization x = putStrLn $ showFactorization $ factor x
+  
+showFactorization x = s where
+  s = intercalate (" . ") $ map showTerm x
+  showTerm (x, e)
+    | e == 1 = show x
+    | otherwise = show x ++ "^" ++ show e
+    
 parseExpression expression = unsafePerformIO $ do
   mctx <- newFmpzMPolyCtx 0 ord_lex
   f <- newFmpzMPoly mctx
