@@ -28,7 +28,7 @@ dependencies:
   - optparse-applicative 
   - timeit                        >= 2.0 && < 2.1
   - Flint3                        
-      
+
 executables:
   bernoulli:
     source-dirs: app/bernoulli
