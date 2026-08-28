@@ -43,10 +43,10 @@ main = do
   putStrLn "Negative integer:  x = -127 mod 3^10"
 
   forM_ [padic_terse, padic_val_unit] $ \printMode -> do
-    withNewPadicCtx 2 8 12 printMode $ \ctx -> do
+    withNewPadicCtx 3 8 10 printMode $ \ctx -> do
       withNewPadic $ \x -> do
         padic_init2 x 10
-        padic_set_ui x (-127) ctx
+        padic_set_si x (-127) ctx
         putStr "print:   "; padic_print x ctx; putStr "\n"
         cstr <- padic_get_str nullPtr x ctx
         str <- peekCString cstr
